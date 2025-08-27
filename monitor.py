@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import hashlib
 import os
 
-URL = "https://your-college-notice-page.com"   # 🔴 Replace with your notice page
+URL = "https://www.dhakacollege.edu.bd/en/notice"   # 🔴 Replace with your notice page
 STATE_FILE = "state.txt"
 
 BOT_TOKEN = os.environ["TELEGRAM_TOKEN"]
