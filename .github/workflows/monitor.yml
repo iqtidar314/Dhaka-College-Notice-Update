@@ -1,26 +1,55 @@
-name: Website Monitor
+name: Dhaka College Notice Monitor
 
+# Run every 5 minutes (adjust as needed)
 on:
   schedule:
-    - cron: "*/5 * * * *"   # every 5 minutes
-  workflow_dispatch:        # manual trigger
+    - cron: "*/5 * * * *"
+  workflow_dispatch:  # allows manual run
 
 jobs:
-  check:
+  check_notice:
     runs-on: ubuntu-latest
+
     steps:
+      # 1️⃣ Checkout your repo
       - uses: actions/checkout@v3
 
+      # 2️⃣ Restore pip cache
+      - name: Cache pip packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            pip-
+
+      # 3️⃣ Restore state.txt hash
+      - name: Restore notice hash
+        uses: actions/cache@v3
+        with:
+          path: state.txt
+          key: notice-state
+
+      # 4️⃣ Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
+      # 5️⃣ Install dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run monitor
-        run: python monitor.py
+      # 6️⃣ Run the notice script
+      - name: Run notice monitor
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python notice.py
+
+      # 7️⃣ Save updated hash
+      - name: Save notice hash
+        uses: actions/cache@v3
+        with:
+          path: state.txt
+          key: notice-state
