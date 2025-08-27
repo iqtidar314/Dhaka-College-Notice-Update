@@ -223,7 +223,7 @@ def main():
     cache_data = load_cache()
     last_hash = cache_data.get('last_hash', '')
     last_notices = cache_data.get('last_notices', [])
-    
+    print("hash and last notice loaded")
     # Fetch current webpage
     html_content = fetch_webpage()
     if not html_content:
@@ -242,7 +242,7 @@ def main():
     print(f"Found {len(current_notices)} notices")
     
     # Check for changes
-    if current_hash != last_hash and last_hash:  # Skip on first run
+    if current_hash != last_hash # Skip on first run
         print("Changes detected!")
         
         # Get new notices (only from the top)
