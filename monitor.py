@@ -34,9 +34,11 @@ def load_cache():
     try:
         if os.path.exists(CACHE_FILE):
             with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+                print(json.load(f))
                 return json.load(f)
     except Exception as e:
         print(f"Error loading cache: {e}")
+    
     return {"last_hash": "", "last_notices": []}
 
 def save_cache(data):
