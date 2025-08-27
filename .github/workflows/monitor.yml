@@ -1,10 +1,10 @@
-name: Website Change Monitor
+name: College Notice Monitor
 
 on:
   schedule:
-    # Run every 10 minutes
-    - cron: '*/10 * * * *'
-  workflow_dispatch:  # Allow manual triggering
+    # Run every 5 minutes
+    - cron: '*/5 * * * *'
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
   monitor:
@@ -21,7 +21,7 @@ jobs:
       with:
         python-version: '3.9'
     
-    - name: Cache Python dependencies
+    - name: Cache pip dependencies
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
@@ -34,15 +34,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Restore cache directory
+    - name: Load notice cache
       uses: actions/cache@v3
       with:
-        path: cache/
-        key: monitor-cache-${{ github.run_id }}
+        path: notice_cache.json
+        key: notice-cache-${{ github.run_id }}
         restore-keys: |
-          monitor-cache-
+          notice-cache-
     
-    - name: Run website monitor
+    - name: Run notice monitor
       env:
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -52,11 +52,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add cache/
-        if git diff --staged --quiet; then
-          echo "No cache changes to commit"
-        else
-          git commit -m "Update cache - $(date '+%Y-%m-%d %H:%M:%S')"
-          git push
-        fi
-      continue-on-error: true
+        git add notice_cache.json
+        git diff --staged --quiet || git commit -m "Update notice cache - $(date)"
+        git push || echo "No changes to push"
