@@ -242,7 +242,7 @@ def main():
     print(f"Found {len(current_notices)} notices")
     
     # Check for changes
-    if current_hash!=last_hash 
+    if current_hash != last_hash:
         print("Changes detected!")
         
         # Get new notices (only from the top)
