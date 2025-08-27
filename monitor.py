@@ -46,15 +46,16 @@ def main():
         rows = tbody.select("tr")[:3]
         notices = []
         for row in rows:
-            title_el = row.select_one("td a")  # assuming title link is inside <td><a>
-            if title_el:
-                title = title_el.get_text(strip=True)
-                link = title_el.get("href")
-                if link and not link.startswith("http"):
-                    # make absolute
-                    from urllib.parse import urljoin
-                    link = urljoin(URL, link)
-                notices.append(f"🔗 <a href='{link}'>{title}</a>")
+            cols = row.select("td")
+            if len(cols) >= 4:
+                title = cols[1].get_text(strip=True)  # 2nd <td> = title
+                link_el = cols[3].select_one("a")     # 4th <td> = download link
+                if link_el:
+                    link = link_el.get("href")
+                    if link and not link.startswith("http"):
+                        from urllib.parse import urljoin
+                        link = urljoin(URL, link)
+                    notices.append(f"🔗 <a href='{link}'>{title}</a>")
 
         if notices:
             msg = "📢 <b>New College Notice(s)</b>\n\n" + "\n".join(notices)
