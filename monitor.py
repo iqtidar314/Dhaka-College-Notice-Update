@@ -188,15 +188,16 @@ class NoticeMonitor:
                 success = self.send_telegram_message(message)
                 if success:
                     print("Notification sent successfully")
+                            # Update cache with current data
+                    cache_data["notices"] = current_notices
+                    cache_data["last_check"] = datetime.now().isoformat()
+                    self.save_cache(cache_data)
                 else:
                     print("Failed to send notification")
         else:
             print("No new notices found")
         
-        # Update cache with current data
-        cache_data["notices"] = current_notices
-        cache_data["last_check"] = datetime.now().isoformat()
-        self.save_cache(cache_data)
+
         
         print("Monitor execution completed")
 
