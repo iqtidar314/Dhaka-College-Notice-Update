@@ -1,55 +1,62 @@
-name: Dhaka College Notice Monitor
+name: Website Change Monitor
 
-# Run every 5 minutes (adjust as needed)
 on:
   schedule:
-    - cron: "*/5 * * * *"
-  workflow_dispatch:  # allows manual run
+    # Run every 10 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
-  check_notice:
+  monitor:
     runs-on: ubuntu-latest
-
+    
     steps:
-      # 1️⃣ Checkout your repo
-      - uses: actions/checkout@v3
-
-      # 2️⃣ Restore pip cache
-      - name: Cache pip packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            pip-
-
-      # 3️⃣ Restore state.txt hash
-      - name: Restore notice hash
-        uses: actions/cache@v3
-        with:
-          path: state.txt
-          key: notice-state
-
-      # 4️⃣ Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.x"
-
-      # 5️⃣ Install dependencies
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      # 6️⃣ Run the notice script
-      - name: Run notice monitor
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python notice.py
-
-      # 7️⃣ Save updated hash
-      - name: Save notice hash
-        uses: actions/cache@v3
-        with:
-          path: state.txt
-          key: notice-state
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Cache Python dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Restore cache directory
+      uses: actions/cache@v3
+      with:
+        path: cache/
+        key: monitor-cache-${{ github.run_id }}
+        restore-keys: |
+          monitor-cache-
+    
+    - name: Run website monitor
+      env:
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: python monitor.py
+    
+    - name: Commit and push cache changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add cache/
+        if git diff --staged --quiet; then
+          echo "No cache changes to commit"
+        else
+          git commit -m "Update cache - $(date '+%Y-%m-%d %H:%M:%S')"
+          git push
+        fi
+      continue-on-error: true
