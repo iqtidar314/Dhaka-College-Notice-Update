@@ -108,7 +108,7 @@ class NoticeMonitor:
                 new_notices.append(notice)
         
         # Return latest 3 new notices
-        return new_notices[:3]
+        return new_notices[]
     
     def send_telegram_message(self, message):
         """Send message to Telegram"""
