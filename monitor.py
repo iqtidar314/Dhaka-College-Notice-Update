@@ -293,11 +293,10 @@ class NoticeMonitor:
             print(f"Structure error continues (count: {error_cache['structure_error']['count']})")
         
         self.save_error_cache(error_cache)
-    
 	def get_notices_hash(self, notices):
-	    """Generate hash of notices content for change detection"""
+		"""Generate hash of notices content for change detection"""
 	    try:
-	        notices_content = []
+	    	notices_content = []
 	        for notice in notices:
 	            content = f"{notice.get('title', '')}{notice.get('date', '')}{notice.get('download_url', '')}"
 	            notices_content.append(content)  # ✅ added append
@@ -306,7 +305,7 @@ class NoticeMonitor:
 	        combined_content = "".join(notices_content)
 
 	        return hashlib.md5(combined_content.encode()).hexdigest()
-	    except Exception as e:
+		except Exception as e:
 	        print(f"Error generating notices hash: {e}")
 	        return ""
 
