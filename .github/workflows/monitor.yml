@@ -20,6 +20,14 @@ jobs:
       with:
         python-version: '3.9'
     
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
     - name: Install dependencies
       run: |
         python -m venv venv
@@ -28,17 +36,6 @@ jobs:
         pip install -r requirements.txt
         echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
         echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
-    
-    # Use a FIXED cache key instead of run_id to prevent cache bloat
-    - name: Load cache files
-      uses: actions/cache@v3
-      with:
-        path: |
-          notice_cache.json
-          error_cache.json
-        key: notice-cache-fixed-v1
-        restore-keys: |
-          notice-cache-fixed-v1
     
     - name: Run notice monitor
       env:
@@ -51,26 +48,12 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # Add cache files if they exist
-        files_to_add=""
-        if [ -f notice_cache.json ]; then
-          files_to_add="$files_to_add notice_cache.json"
-        fi
-        if [ -f error_cache.json ]; then
-          files_to_add="$files_to_add error_cache.json"
-        fi
+        git add notice_cache.json error_cache.json || true
         
-        if [ -n "$files_to_add" ]; then
-          git add $files_to_add
-          
-          # Check if there are any changes to commit (including new files)
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update cache files - $(date '+%Y-%m-%d %H:%M:%S')"
-            git push
-            echo "Cache files updated and pushed"
-          fi
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
         else
-          echo "No cache files to add"
+          git commit -m "Update cache files - $(date '+%Y-%m-%d %H:%M:%S')"
+          git push
+          echo "Cache files updated and pushed"
         fi
