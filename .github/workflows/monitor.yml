@@ -9,7 +9,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/${{ github.repository }}/notice-monitor:latest
+      image: ghcr.io/${{ github.repository_owner }}/dhaka-college-notice-update/notice-monitor:latest
+
     steps:
       - uses: actions/checkout@v4
 
