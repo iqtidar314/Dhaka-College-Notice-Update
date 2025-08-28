@@ -22,10 +22,10 @@ class NoticeMonitor:
             if os.path.exists(self.cache_file):
                 with open(self.cache_file, 'r', encoding='utf-8') as f:
                     return json.load(f)
-            return {"notices": [], "last_check": None}
+            return {"notices": [], "last_update": None}
         except Exception as e:
             print(f"Error loading cache: {e}")
-            return {"notices": [], "last_check": None}
+            return {"notices": [], "last_update": None}
     
     def save_cache(self, data):
         """Save data to cache file"""
@@ -188,16 +188,15 @@ class NoticeMonitor:
                 success = self.send_telegram_message(message)
                 if success:
                     print("Notification sent successfully")
+                    # Update cache with current data
+                    cache_data["notices"] = current_notices
+                    cache_data["last_update"] = datetime.now().isoformat()
+                    self.save_cache(cache_data)
                 else:
                     print("Failed to send notification")
         else:
             print("No new notices found")
-        
-        # Update cache with current data
-        cache_data["notices"] = current_notices
-        cache_data["last_check"] = datetime.now().isoformat()
-        self.save_cache(cache_data)
-        
+            
         print("Monitor execution completed")
 
 if __name__ == "__main__":
