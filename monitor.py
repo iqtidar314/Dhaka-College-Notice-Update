@@ -300,14 +300,16 @@ class NoticeMonitor:
             notices_content = []
             for notice in notices:
                 content = f"{notice.get('title', '')}{notice.get('date', '')}{notice.get('download_url', '')}"
-                notices_content.append(content)
 
+        
             notices_content.sort()
             combined_content = "".join(notices_content)
+        
             return hashlib.md5(combined_content.encode()).hexdigest()
-            except Exception as e:
+        except Exception as e:
             print(f"Error generating notices hash: {e}")
             return ""
+
 
     
     def get_new_notices(self, current_notices, cached_notices):
