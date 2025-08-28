@@ -50,18 +50,28 @@ jobs:
     - name: Load notice cache
       uses: actions/cache@v3
       with:
-        path: notice_cache.json
+        path: |
+          notice_cache.json
+          error_cache.json
         key: notice-cache-${{ github.run_id }}
         restore-keys: |
           notice-cache-
     
-    - name: Check for manual cache updates
+    - name: Check for existing cache files
       run: |
+        echo "Checking cache files..."
         if [ -f notice_cache.json ]; then
-          echo "Found existing cache file in repository"
+          echo "Found existing notice_cache.json"
           ls -la notice_cache.json
         else
-          echo "No cache file found, will create new one"
+          echo "No notice_cache.json found, will create new one"
+        fi
+        
+        if [ -f error_cache.json ]; then
+          echo "Found existing error_cache.json"
+          ls -la error_cache.json
+        else
+          echo "No error_cache.json found, will create new one if needed"
         fi
     
     - name: Run notice monitor
@@ -70,11 +80,36 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       run: python monitor.py
     
-    - name: Commit and push cache changes
+    - name: Check for changes and commit
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add notice_cache.json error_cache.json
-        git diff --staged --quiet || git commit -m "Update notice cache - $(date)"
-        git push || echo "No changes to push"
- 
+        
+        # Check if files exist and add them only if they do
+        files_to_add=""
+        
+        if [ -f notice_cache.json ]; then
+          files_to_add="$files_to_add notice_cache.json"
+          echo "Will add notice_cache.json"
+        fi
+        
+        if [ -f error_cache.json ]; then
+          files_to_add="$files_to_add error_cache.json"
+          echo "Will add error_cache.json"
+        fi
+        
+        if [ -n "$files_to_add" ]; then
+          echo "Adding files: $files_to_add"
+          git add $files_to_add
+          
+          # Check if there are any staged changes
+          if ! git diff --staged --quiet; then
+            git commit -m "Update cache files - $(date '+%Y-%m-%d %H:%M:%S')"
+            git push
+            echo "Cache files updated and pushed"
+          else
+            echo "No changes to commit"
+          fi
+        else
+          echo "No cache files to add"
+        fi
