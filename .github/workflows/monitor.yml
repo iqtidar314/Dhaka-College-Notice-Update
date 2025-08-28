@@ -1,4 +1,4 @@
-name: DC Notice Monitor
+name: Notice Monitor
 
 on:
   schedule:
@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/${{ github.repository_owner }}/dhaka-college-notice-update/notice-monitor:latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -18,8 +17,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          python monitor.py
+        run: python monitor.py
 
       - name: Commit changes if any
         run: |
