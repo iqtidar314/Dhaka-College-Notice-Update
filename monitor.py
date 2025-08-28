@@ -107,8 +107,8 @@ class NoticeMonitor:
             if notice['id'] not in cached_ids:
                 new_notices.append(notice)
         
-        # Return latest 3 new notices
-        return new_notices[:3]
+        # Return latest new notices
+        return new_notices
     
     def send_telegram_message(self, message):
         """Send message to Telegram"""
@@ -121,7 +121,7 @@ class NoticeMonitor:
                 "disable_web_page_preview": True
             }
             
-            response = requests.post(url, data=data, timeout=30)
+            response = requests.post(url, data=data, timeout=15)
             response.raise_for_status()
             
             print("Telegram message sent successfully")
