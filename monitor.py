@@ -361,8 +361,8 @@ class NoticeMonitor:
         
         return message
     
-    def run(self):
-        """Main execution function - keep your existing logic here"""
+def run(self):
+        """Main execution function with improved cache management"""
         print(f"Starting notice monitor at {datetime.now()}")
         
         # Validate environment variables
@@ -376,13 +376,13 @@ class NoticeMonitor:
         # Fetch current webpage (now with error tracking)
         html_content = self.fetch_webpage()
         if not html_content:
-            print("Failed to fetch webpage")
+            print("Failed to fetch webpage - exiting without cache update")
             sys.exit(1)
         
         # Parse current notices (now with structure error tracking)
         current_notices = self.parse_notices(html_content)
         if not current_notices:
-            print("No notices found on the webpage")
+            print("No notices found on the webpage - exiting without cache update")
             return
         
         print(f"Found {len(current_notices)} total notices")
@@ -395,6 +395,9 @@ class NoticeMonitor:
         cached_notices_hash = self.get_notices_hash(cache_data.get("notices", []))
         content_changed = current_notices_hash != cached_notices_hash
         
+        # Flag to track if we should update cache
+        should_update_cache = False
+        
         if new_notices:
             print(f"Found {len(new_notices)} new notices")
             
@@ -404,24 +407,28 @@ class NoticeMonitor:
                 success = self.send_telegram_message(message)
                 if success:
                     print("Notification sent successfully")
-                    # Update cache with current data
-                    cache_data["notices"] = current_notices
-                    cache_data["last_check"] = datetime.now().isoformat()
-                    self.save_cache(cache_data)
-                    print("Cache updated with new notices")
+                    should_update_cache = True
                 else:
                     print("Failed to send notification - cache not updated")
         elif content_changed:
             print("No new notices, but existing content changed")
-            #cache_data["notices"] = current_notices
-            #cache_data["last_check"] = datetime.now().isoformat()
-            #self.save_cache(cache_data)
-            #print("Cache updated due to content changes")
+            should_update_cache = True
         else:
-            print("No new notices and no content changes - no cache update")
-            
+            print("No new notices and no content changes detected")
+            # Update last_check timestamp only, but keep same notices
+            cache_data["last_check"] = datetime.now().isoformat()
+            self.save_cache(cache_data)
+            print("Updated last_check timestamp only")
+            return
+        
+        # Update cache only when there are actual changes
+        if should_update_cache:
+            cache_data["notices"] = current_notices
+            cache_data["last_check"] = datetime.now().isoformat()
+            self.save_cache(cache_data)
+            print("Cache updated with current notices")
+        
         print("Monitor execution completed")
-
 if __name__ == "__main__":
     monitor = NoticeMonitor()
     monitor.run()
