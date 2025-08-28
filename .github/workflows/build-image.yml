@@ -2,7 +2,8 @@ name: Build Notice Monitor Image
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]   # build image whenever code changes
+  workflow_dispatch:      # allow manual trigger too
 
 jobs:
   build:
@@ -25,5 +26,3 @@ jobs:
           tags: ghcr.io/${{ github.repository_owner }}/dhaka-college-notice-update/notice-monitor:latest
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/dhaka-college-notice-update/notice-monitor:cache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/dhaka-college-notice-update/notice-monitor:cache,mode=max
-
-
