@@ -51,32 +51,26 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # Check if cache files exist and have changes
+        # Add cache files if they exist
         files_to_add=""
-        has_changes=false
-        
         if [ -f notice_cache.json ]; then
           files_to_add="$files_to_add notice_cache.json"
-          if git diff --name-only notice_cache.json | grep -q notice_cache.json; then
-            has_changes=true
-            echo "notice_cache.json has changes"
-          fi
         fi
-        
         if [ -f error_cache.json ]; then
           files_to_add="$files_to_add error_cache.json"
-          if git diff --name-only error_cache.json | grep -q error_cache.json; then
-            has_changes=true
-            echo "error_cache.json has changes"
-          fi
         fi
         
-        # Only commit if there are actual changes
-        if [ -n "$files_to_add" ] && [ "$has_changes" = true ]; then
+        if [ -n "$files_to_add" ]; then
           git add $files_to_add
-          git commit -m "Update cache files - $(date '+%Y-%m-%d %H:%M:%S')"
-          git push
-          echo "Cache files updated and pushed"
+          
+          # Check if there are any changes to commit (including new files)
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update cache files - $(date '+%Y-%m-%d %H:%M:%S')"
+            git push
+            echo "Cache files updated and pushed"
+          fi
         else
-          echo "No changes to cache files, skipping commit"
+          echo "No cache files to add"
         fi
