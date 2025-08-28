@@ -98,24 +98,6 @@ class NoticeMonitor:
             print(f"Error parsing notices: {e}")
             return []
     
-    def get_notices_hash(self, notices):
-        """Generate hash of notices content for change detection"""
-        try:
-            # Create a string representation of all notices (excluding timestamps)
-            notices_content = []
-            for notice in notices:
-                content = f"{notice.get('title', '')}{notice.get('date', '')}{notice.get('download_url', '')}"
-                notices_content.append(content)
-            
-            # Sort to ensure consistent hashing regardless of order
-            notices_content.sort()
-            combined_content = "".join(notices_content)
-            
-            return hashlib.md5(combined_content.encode()).hexdigest()
-        except Exception as e:
-            print(f"Error generating notices hash: {e}")
-            return ""
-    
     def get_new_notices(self, current_notices, cached_notices):
         """Compare current notices with cached ones to find new notices"""
         cached_ids = {notice['id'] for notice in cached_notices}
