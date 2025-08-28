@@ -300,6 +300,9 @@ class NoticeMonitor:
             notices_content = []
             for notice in notices:
                 content = f"{notice.get('title', '')}{notice.get('date', '')}{notice.get('download_url', '')}"
+                #for testing cache changes
+                if notice>5;
+                    content = f"{notice.get('title', '')}{notice.get('download_url', '')}"
                 notices_content.append(content)
             
             notices_content.sort()
