@@ -242,7 +242,7 @@ class NoticeMonitor:
                     if link_element and link_element.get('href'):
                         download_link = link_element.get('href')
                     
-                    notice_id = lib.md5(f"{title}{download_link}".encode()).hexdigest() #{notice.get('date', '')}
+                    notice_id = hashlib.md5(f"{title}{download_link}".encode()).hexdigest() #{notice.get('date', '')}
                     
                     notice = {
                         "id": notice_id,
