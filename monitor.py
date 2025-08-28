@@ -124,7 +124,7 @@ class NoticeMonitor:
         error_cache = self.load_error_cache()
         
         try:
-            response = requests.get(self.url, headers=self.headers, timeout=30)
+            response = requests.get(self.url, headers=self.headers, timeout=10)
             response.raise_for_status()
             
             # Success - check if we need to send resolution message
@@ -412,11 +412,11 @@ class NoticeMonitor:
                 else:
                     print("Failed to send notification - cache not updated")
         elif content_changed:
-            print("No new notices, but existing content changed - updating cache silently")
-            cache_data["notices"] = current_notices
-            cache_data["last_check"] = datetime.now().isoformat()
-            self.save_cache(cache_data)
-            print("Cache updated due to content changes")
+            print("No new notices, but existing content changed")
+            #cache_data["notices"] = current_notices
+            #cache_data["last_check"] = datetime.now().isoformat()
+            #self.save_cache(cache_data)
+            #print("Cache updated due to content changes")
         else:
             print("No new notices and no content changes - no cache update")
             
