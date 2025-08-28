@@ -74,6 +74,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add notice_cache.json
+        git add notice_cache.json error_cache.json
         git diff --staged --quiet || git commit -m "Update notice cache - $(date)"
         git push || echo "No changes to push"
+ 
