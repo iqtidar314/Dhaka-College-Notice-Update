@@ -242,7 +242,7 @@ class NoticeMonitor:
                     if link_element and link_element.get('href'):
                         download_link = link_element.get('href')
                     
-                    notice_id = hashlib.md5(f"{title}{date}{download_link}".encode()).hexdigest()
+                    notice_id = hashlib.md5(f"{title}{download_link}".encode()).hexdigest() #{notice.get('date', '')}
                     
                     notice = {
                         "id": notice_id,
@@ -299,7 +299,7 @@ class NoticeMonitor:
         try:
             notices_content = []
             for notice in notices:
-                content = f"{notice.get('title', '')}{notice.get('download_url', '')}"
+                content = f"{notice.get('title', '')}{notice.get('date', '')}{notice.get('download_url', '')}"
 
             
             notices_content.sort()
