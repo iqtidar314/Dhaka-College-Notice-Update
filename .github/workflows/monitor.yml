@@ -2,9 +2,8 @@ name: College Notice Monitor
 
 on:
   schedule:
-    # Run every 5 minutes
     - cron: '*/5 * * * *'
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   monitor:
@@ -21,58 +20,25 @@ jobs:
       with:
         python-version: '3.9'
     
-    - name: Cache Python virtual environment
-      uses: actions/cache@v3
-      with:
-        path: venv
-        key: ${{ runner.os }}-venv-python3.9-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-venv-python3.9-
-    
     - name: Install dependencies
       run: |
-        if [ ! -d "venv" ]; then
-          echo "Creating virtual environment and installing dependencies"
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          echo "Virtual environment created and dependencies installed"
-        else
-          echo "Using cached virtual environment"
-        fi
-        
-        # Activate virtual environment for subsequent steps
+        python -m venv venv
         source venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
         echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
         echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
     
-    - name: Load notice cache
+    # Use a FIXED cache key instead of run_id to prevent cache bloat
+    - name: Load cache files
       uses: actions/cache@v3
       with:
         path: |
           notice_cache.json
           error_cache.json
-        key: notice-cache-${{ github.run_id }}
+        key: notice-cache-fixed-v1
         restore-keys: |
-          notice-cache-
-    
-    - name: Check for existing cache files
-      run: |
-        echo "Checking cache files..."
-        if [ -f notice_cache.json ]; then
-          echo "Found existing notice_cache.json"
-          ls -la notice_cache.json
-        else
-          echo "No notice_cache.json found, will create new one"
-        fi
-        
-        if [ -f error_cache.json ]; then
-          echo "Found existing error_cache.json"
-          ls -la error_cache.json
-        else
-          echo "No error_cache.json found, will create new one if needed"
-        fi
+          notice-cache-fixed-v1
     
     - name: Run notice monitor
       env:
@@ -80,36 +46,37 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       run: python monitor.py
     
-    - name: Check for changes and commit
+    - name: Commit cache changes only when needed
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # Check if files exist and add them only if they do
+        # Check if cache files exist and have changes
         files_to_add=""
+        has_changes=false
         
         if [ -f notice_cache.json ]; then
           files_to_add="$files_to_add notice_cache.json"
-          echo "Will add notice_cache.json"
+          if git diff --name-only notice_cache.json | grep -q notice_cache.json; then
+            has_changes=true
+            echo "notice_cache.json has changes"
+          fi
         fi
         
         if [ -f error_cache.json ]; then
           files_to_add="$files_to_add error_cache.json"
-          echo "Will add error_cache.json"
+          if git diff --name-only error_cache.json | grep -q error_cache.json; then
+            has_changes=true
+            echo "error_cache.json has changes"
+          fi
         fi
         
-        if [ -n "$files_to_add" ]; then
-          echo "Adding files: $files_to_add"
+        # Only commit if there are actual changes
+        if [ -n "$files_to_add" ] && [ "$has_changes" = true ]; then
           git add $files_to_add
-          
-          # Check if there are any staged changes
-          if ! git diff --staged --quiet; then
-            git commit -m "Update cache files - $(date '+%Y-%m-%d %H:%M:%S')"
-            git push
-            echo "Cache files updated and pushed"
-          else
-            echo "No changes to commit"
-          fi
+          git commit -m "Update cache files - $(date '+%Y-%m-%d %H:%M:%S')"
+          git push
+          echo "Cache files updated and pushed"
         else
-          echo "No cache files to add"
+          echo "No changes to cache files, skipping commit"
         fi
