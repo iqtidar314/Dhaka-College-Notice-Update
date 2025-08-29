@@ -1,9 +1,9 @@
 {
   "last_error": {
-    "type": null,
-    "active": false,
-    "count": 0,
-    "sent": false,
-    "detail_error": ""
+    "type": "manualTimeout",
+    "active": true,
+    "count": 1,
+    "detail_error": "HTTPSConnectionPool(host='www.dhakacollege.edu.bd', port=443): Max retries exceeded with url: /en/notice (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7fa689241430>, 'Connection to www.dhakacollege.edu.bd timed out. (connect timeout=10)'))",
+    "sent": false
   }
 }
