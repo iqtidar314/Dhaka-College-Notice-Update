@@ -1,0 +1,16 @@
+     timestamp      | duration | description
+2025-08-29 17:40:54 |  1.92s   | 🎈No new notices found
+2025-08-29 17:41:47 |  2.55s   | 🎈No new notices found
+2025-08-29 17:42:28 |  0.61s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notic
+2025-08-29 17:42:46 |  0.61s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notic
+2025-08-29 17:42:47 |  1.70s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notic
+2025-08-29 17:50:32 |  0.62s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notic
+2025-08-29 17:50:34 |  0.54s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notic
+2025-08-29 17:50:37 |  0.52s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notic
+2025-08-29 17:51:58 |  0.54s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notic
+2025-08-29 17:52:11 |  4.72s   | 🎈No new notices found
+2025-08-29 19:01:24 |  2.24s   | 🎈No new notices found
+2025-08-29 13:04:00 |  1.10s   | 🎈No new notices found
+2025-08-29 13:05:28 |  1.74s   | 🎈No new notices found
+2025-08-29 13:34:17 |  0.93s   | 🎈No new notices found
+2025-08-29 13:47:07 |  1.62s   | 🎈No new notices found
