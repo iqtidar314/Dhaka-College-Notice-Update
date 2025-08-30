@@ -40,3 +40,4 @@
 2025-08-30 11:28:27 |  2.05s   | 🎈No new notices found
 2025-08-30 11:28:37 |  1.59s   | 🎈No new notices found2025-08-30 12:48:54 |  0.82s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notie
 2025-08-30 12:49:02 |  3.51s   | 🎈No new notices found
+

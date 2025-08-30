@@ -60,16 +60,16 @@ class NoticeMonitor:
         error_data = self.load_error_state()
         last_error = error_data.get("last_error", {})
         previous_error = error_data.get("previous_error", {})
-
+    
         current_error_type = last_error.get("type")
         current_count = last_error.get("count", 0)
         current_sent = last_error.get("sent", False)
         current_active = last_error.get("active", False)
-
+    
         # Case 1: Same error type as currently tracked
         if current_error_type == error_type and current_active:
             error_count = current_count + 1
-
+            
             error_data["last_error"] = {
                 "type": error_type,
                 "active": True,
@@ -77,7 +77,7 @@ class NoticeMonitor:
                 "detail_error": str(details.get('error', '')) if details else "",
                 "sent": current_sent
             }
-
+    
         # Case 2: Different error type
         elif current_error_type != error_type:
             # Check if we need to restore previous error that matches current error_type
@@ -86,7 +86,7 @@ class NoticeMonitor:
                 current_count < 3 and not current_sent):
                 # Restore previous error and continue its count
                 error_count = previous_error.get("count", 0) + 1
-
+                
                 error_data["last_error"] = {
                     "type": error_type,
                     "active": True,
@@ -94,10 +94,10 @@ class NoticeMonitor:
                     "detail_error": str(details.get('error', '')) if details else "",
                     "sent": previous_error.get("sent", False)
                 }
-
+                
                 # Clear previous error since we restored it
                 error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-
+            
             else:
                 # If current error was sent (>=3 times), store it as previous_error
                 if current_active and current_sent and current_count >= 3:
@@ -107,7 +107,7 @@ class NoticeMonitor:
                         "sent": True,
                         "active": True  # Mark as active so we know to track it
                     }
-
+                
                 # Start new error tracking from 1
                 error_count = 1
                 error_data["last_error"] = {
@@ -117,7 +117,7 @@ class NoticeMonitor:
                     "detail_error": str(details.get('error', '')) if details else "",
                     "sent": False
                 }
-
+    
         # Case 3: First error or reactivating
         else:
             error_count = 1
@@ -128,7 +128,7 @@ class NoticeMonitor:
                 "detail_error": str(details.get('error', '')) if details else "",
                 "sent": False
             }
-
+    
         # Send message logic
         if error_count >= 3 and not error_data["last_error"].get("sent", False):
             # Check if there's a previous error that was being tracked
@@ -136,7 +136,7 @@ class NoticeMonitor:
                 # New error reached 3 times during ongoing previous error
                 prev_type = previous_error.get("type", "Unknown")
                 prev_count = previous_error.get("count", 0)
-
+                
                 if error_type == "structure":
                     err = html.escape(str(details.get('error', '')))
                     msg = (
@@ -170,10 +170,10 @@ class NoticeMonitor:
                         f"Occurred {error_count} times consecutively.\n\n"
                         f"📋 <b>Note:</b> Previous <b>{prev_type}</b> error had occurred {prev_count} times before this new error appeared."
                     )
-
+                
                 # Forget the previous error after mentioning it
                 error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-
+                
             else:
                 # Regular error message (no previous error context)
                 if error_type == "structure":
@@ -202,22 +202,22 @@ class NoticeMonitor:
                     )
                 else:
                     msg = f"⚠️ <b>Unknown Error:</b> {html.escape(str(details))}\nOccurred {error_count} times consecutively."
-
+    
             if self.send_telegram_message(msg, disable_sound=True):
                 error_data["last_error"]["sent"] = True
-
+    
         self.save_error_state(error_data)
-
+    
     def send_resolved_notification(self):
         error_data = self.load_error_state()
         last_error = error_data.get("last_error", {})
         previous_error = error_data.get("previous_error", {})
-
+    
         if last_error.get("active", False):
             count = last_error.get("count", 0)
             error_type = last_error.get("type", "Unknown")
             was_sent = last_error.get("sent", False)
-
+            
             # Check if current error was sent (>=3 times)
             if was_sent:
                 # Send resolution message for the current error
@@ -228,11 +228,11 @@ class NoticeMonitor:
                 )
                 if not self.send_telegram_message(msg, disable_sound=True):
                     return
-
+                
                 # Reset error state completely
                 error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
                 error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-
+            
             # Current error wasn't sent (<3 times) but there's an active previous error
             elif not was_sent and previous_error.get("active", False):
                 # Check if the previous error should be resolved or restored
@@ -247,7 +247,7 @@ class NoticeMonitor:
                     )
                     if not self.send_telegram_message(msg, disable_sound=True):
                         return
-
+                    
                     # Reset completely after resolution
                     error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
                     error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
@@ -255,12 +255,12 @@ class NoticeMonitor:
                     # Previous error wasn't sent either, just reset everything
                     error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
                     error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-
+            
             # No previous error or current error wasn't significant - just reset
             else:
                 error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
                 error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-
+    
             self.save_error_state(error_data)
     def fetch_webpage(self):
         """Fetch the college notice webpage"""
