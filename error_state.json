@@ -5,5 +5,11 @@
     "count": 0,
     "sent": false,
     "detail_error": ""
+  },
+  "previous_error": {
+    "type": null,
+    "count": 0,
+    "sent": false,
+    "active": false
   }
 }

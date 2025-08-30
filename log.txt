@@ -35,8 +35,8 @@
 2025-08-30 10:45:41 |  1.71s   | 🎈No new notices found
 2025-08-30 10:56:29 |  1.44s   | 🎈No new notices found
 2025-08-30 11:19:31 |  1.84s   | 🎈No new notices found
-2025-08-30 11:34:39 |  0.97s   | 🎈No new notices found
-2025-08-30 11:45:24 |  0.90s   | 🎈No new notices found
-2025-08-30 11:56:15 |  1.29s   | 🎈No new notices found
-2025-08-30 12:28:49 |  1.30s   | 🎈No new notices found
-2025-08-30 12:46:36 |  1.99s   | 🎈No new notices found
+2025-08-30 11:24:55 |  0.00s   | ❌telegram token or chat id is invalid
+2025-08-30 11:27:51 |  4.02s   | 📢Found 1 new notices --> sent to telegram bot
+2025-08-30 11:28:27 |  2.05s   | 🎈No new notices found
+2025-08-30 11:28:37 |  1.59s   | 🎈No new notices found2025-08-30 12:48:54 |  0.82s   | ❌Network error fetching webpage: 404 Client Error: Not Found for url: https://www.dhakacollege.edu.bd/en/notie
+2025-08-30 12:49:02 |  3.51s   | 🎈No new notices found
