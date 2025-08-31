@@ -175,3 +175,4 @@
 2025-09-01 02:53:35 |  1.62s   | 🎈No new notices found
 2025-09-01 03:13:35 |  5.97s   | 🎈No new notices found
 2025-09-01 03:28:44 |  1.80s   | 🎈No new notices found
+2025-09-01 03:40:04 |  20.08s   | ❌Timeout error fetching webpage: HTTPSConnectionPool(host='www.dhakacollege.edu.bd', port=443): Max retries exceeded with url: /en/notice (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7fd0cd1d4070>, 'Connection to www.dhakacollege.edu.bd timed out. (connect timeout=10)'))
