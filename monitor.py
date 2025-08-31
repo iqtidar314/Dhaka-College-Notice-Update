@@ -4,8 +4,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 import hashlib
-from datetime import datetime, timedelta, timezone
-from zoneinfo import ZoneInfo
+from datetime import datetime, timezone, timedelta
 import sys
 import html
 
@@ -466,10 +465,10 @@ class NoticeMonitor:
         return runState
 
 if __name__ == "__main__":
-    start = datetime.now(timezone.utc) + timedelta(hours=6)
+    start = datetime.now(timezone(timedelta(hours=6)))
     monitor = NoticeMonitor()
     runState = monitor.run()
-    end = datetime.now(timezone.utc) + timedelta(hours=6)
+    end = datetime.now(timezone(timedelta(hours=6)))
     elapsed = (end - start).total_seconds()  
     logTxt = f"{start.strftime('%Y-%m-%d %H:%M:%S')} |  {elapsed:.2f}s   | {runState}"
     with open("log.txt", "a", encoding="utf-8") as f:

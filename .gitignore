@@ -1,3 +1,5 @@
-venv/
+dcvenv/
 __pycache__/
 *.pyc
+Dhaka-College-Notice-Update.code-workspace
+git.md
