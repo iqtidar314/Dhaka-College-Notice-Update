@@ -374,7 +374,32 @@ class NoticeMonitor:
         if not notices:
             return None
         
-        message = "🔔 <b>New Notice(s) from Dhaka College!</b>\n\n"
+        with open("log.txt", "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+        # Take the last 3 lines (or fewer if file has less than 3 lines)
+        last_lines = [line.strip() for line in lines[-3:]]
+
+        # Split by "|" and take the 3rd portion (index 2) if available
+        third_parts = []
+        for line in last_lines:
+            parts = line.split("|")
+            if len(parts) >= 3:
+                third_parts.append(parts[2].strip())
+            else:
+                third_parts.append("")  # fallback if line has < 3 parts
+
+        # Compare third portions
+        if len(set(third_parts)) == 1:
+            # All same → just print last line
+            message ="previously checked:\n"+ last_lines[-1]
+        else:
+            # Different → print all 3
+            #for line in last_lines:
+            third_parts_str = "\n".join(last_lines)
+            message ="previously checked:\n" +  third_parts_str
+        message += f"\n🕐 Currently Checked at:\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        message  += f"\n🔔 <b>New Notice(s) from Dhaka College!</b>\n\n"
         
         for i, notice in enumerate(notices, 1):
             message += f"<b>{i}. {notice['title']}</b>\n"
@@ -383,7 +408,7 @@ class NoticeMonitor:
                 message += f"📎 <a href='{notice['download_url']}'>Download PDF</a>\n"
             message += "\n"
         
-        message += f"🕐 Checked at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        
         message += f"🌐 <a href='{self.url}'>View All Notices</a>"
         
         return message
