@@ -398,7 +398,8 @@ class NoticeMonitor:
             #for line in last_lines:
             third_parts_str = "\n".join(last_lines)
             message ="previously checked:\n" +  third_parts_str
-        message += f"\n🕐 Currently Checked at:\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        current_time = datetime.now(timezone(timedelta(hours=6)))
+        message += f"\n🕐 Currently Checked at:\n{current_time.strftime('%Y-%m-%d %H:%M:%S')}"
         message  += f"\n🔔 <b>New Notice(s) from Dhaka College!</b>\n\n"
         
         for i, notice in enumerate(notices, 1):
