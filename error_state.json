@@ -2,7 +2,7 @@
   "last_error": {
     "type": "network",
     "active": true,
-    "count": 10,
+    "count": 11,
     "detail_error": "503 Server Error: Service Unavailable for url: https://www.dhakacollege.edu.bd/en/notice",
     "sent": true
   },
