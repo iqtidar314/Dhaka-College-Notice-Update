@@ -2568,3 +2568,4 @@
 2025-10-02 15:32:00 |  1.80s   | 🎈No new notices found
 2025-10-02 15:43:19 |  2.84s   | 🎈No new notices found
 2025-10-02 15:54:05 |  1.98s   | 🎈No new notices found
+2025-10-02 16:17:13 |  0.08s   | ❌Network error fetching webpage: 503 Server Error: Service Unavailable for url: https://www.dhakacollege.edu.bd/en/notice
