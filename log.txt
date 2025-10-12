@@ -3379,3 +3379,4 @@
 2025-10-13 03:26:52 |  2.07s   | 🎈No new notices found
 2025-10-13 03:38:39 |  3.00s   | 🎈No new notices found
 2025-10-13 03:49:22 |  0.06s   | ❌Network error fetching webpage: HTTPSConnectionPool(host='www.dhakacollege.edu.bd', port=443): Max retries exceeded with url: /en/notice (Caused by SSLError(SSLZeroReturnError(6, 'TLS/SSL connection has been closed (EOF) (_ssl.c:1147)')))
+2025-10-13 03:59:44 |  1.44s   | 🎈No new notices found
