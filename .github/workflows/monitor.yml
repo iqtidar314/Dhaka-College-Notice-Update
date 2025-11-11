@@ -2,72 +2,75 @@ name: College Notice Monitor
 
 on:
   schedule:
-    # Run every 5 minutes
     - cron: '*/5 * * * *'
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-    
-    - name: Cache Python virtual environment
-      uses: actions/cache@v3
-      with:
-        path: venv
-        key: ${{ runner.os }}-venv-python3.9-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-venv-python3.9-
-    
-    - name: Install dependencies
-      run: |
-        if [ ! -d "venv" ]; then
-          echo "Creating virtual environment and installing dependencies"
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          echo "Virtual environment created and dependencies installed"
-        else
-          echo "Using cached virtual environment"
-        fi
-        
-        # Activate virtual environment for subsequent steps
-        source venv/bin/activate
-        echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
-        echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
-    
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    
-    - name: Check for manual cache updates
-      run: |
-        if [ -f notice_cache.json ]; then
-          echo "Found existing cache file in repository"
-          ls -la notice_cache.json
-        else
-          echo "No cache file found, will create new one"
-        fi
-    
-    - name: Run notice monitor
-      env:
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: python monitor.py
-    
-    - name: Commit and push cache changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add notice_cache.json error_state.json log.txt 
-        git diff --staged --quiet || git commit -m "Update notice/error state - $(date)"
-        git push || echo "No changes to push"
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Cache Python virtual environment
+        uses: actions/cache@v3
+        with:
+          path: venv
+          key: ${{ runner.os }}-venv-python3.9-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-python3.9-
+
+      - name: Install dependencies
+        run: |
+          if [ ! -d "venv" ]; then
+            python -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+          else
+            echo "Using cached virtual environment"
+          fi
+          source venv/bin/activate
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
+          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+
+      - name: Check for manual cache updates
+        run: |
+          if [ -f notice_cache.json ]; then
+            echo "Found existing cache file in repository"
+          else
+            echo "No cache file found, will create new one"
+          fi
+
+      - name: Run notice monitor
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python monitor.py
+
+      - name: Commit and push cache changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add notice_cache.json error_state.json log.txt 
+          git diff --staged --quiet || git commit -m "Update notice/error state - $(date)"
+          git push || echo "No changes to push"
+
+      # 🚨 NEW STEP: Send Telegram message if workflow fails
+      - name: Send failure notification to Telegram
+        if: failure()
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MESSAGE="🚨 GitHub Action Failed 🚨%0ARepo: ${{ github.repository }}%0AWorkflow: ${{ github.workflow }}%0ARun ID: ${{ github.run_id }}%0ACommit: ${{ github.sha }}%0AView logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+               -d chat_id="${TELEGRAM_CHAT_ID}" \
+               -d text="$MESSAGE" \
+               -d parse_mode="HTML"
