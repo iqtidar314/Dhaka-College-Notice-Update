@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "de5f171fc9bf982f2c71cd68cd66ecbb",
+      "id": "61e6c9616471c005f0c1e53557bb8aa9",
       "serial": "1",
+      "title": "একাদশ শ্রেণির ২০২৫-২০২৬ শিক্ষাবর্ষের রেজিষ্ট্রেশনের খসড়া তালিকা পাতা-০২",
+      "date": "10-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/9ec7e42faeb17503-একাদশ-শ্রেণির-২০২৫-২০২৬-শিক্ষাবর্ষের-রেজিষ্ট্রেশনের-খসড়া-তালিকা-পাতা-০২.pdf",
+      "timestamp": "2025-11-11T17:14:11.500448"
+    },
+    {
+      "id": "64bf523d4d3e9973345f9db64f50b30c",
+      "serial": "2",
+      "title": "একাদশ শ্রেণির ২০২৫-২০২৬ শিক্ষাবর্ষের রেজিষ্ট্রেশনের খসড়া তালিকা পাতা-০১",
+      "date": "10-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/0ee47eaa04087945-একাদশ-শ্রেণির-২০২৫-২০২৬-শিক্ষাবর্ষের-রেজিষ্ট্রেশনের-খসড়া-তালিকা-পাতা-০১.pdf",
+      "timestamp": "2025-11-11T17:14:11.500489"
+    },
+    {
+      "id": "e50287233abe69fc77a70e2ea61ee788",
+      "serial": "3",
+      "title": "HSC Winter Dress notice",
+      "date": "10-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/fbe1e4923aa012d0-hsc-winter-dress-notice.pdf",
+      "timestamp": "2025-11-11T17:14:11.500516"
+    },
+    {
+      "id": "eb2a08ce123b8f1429c4e7bbe9f7200b",
+      "serial": "4",
+      "title": "XII (2024-2025) CT-2 Result Published",
+      "date": "06-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/82dc42b3d7ea7b07-xii-(2024-2025)-ct-2-result-published.pdf",
+      "timestamp": "2025-11-11T17:14:11.500543"
+    },
+    {
+      "id": "b6104d8f351b96ffe1a8838229676d98",
+      "serial": "5",
+      "title": "অনার্স ২য় বর্ষ পরীক্ষা-২০২৪ এর আংশিক সংশোধিত ফরম পূরণের বিজ্ঞপ্তি",
+      "date": "05-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/2bb3a3808e28e74b-অনার্স-২য়-বর্ষ-পরীক্ষা-২০২৪-এর-আংশিক-সংশোধিত-ফরম-পূরণের-বিজ্ঞপ্তি.pdf",
+      "timestamp": "2025-11-11T17:14:11.500571"
+    },
+    {
+      "id": "8cb80860d756e56b44ecca40a814dd00",
+      "serial": "6",
+      "title": "অনার্স ২য় বর্ষ পরীক্ষা-২০২৪ এর ফরম পূরণ ও টাকার জমার বিজ্ঞপ্তি",
+      "date": "05-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/c971cd7bdaeda1be-অনার্স-২য়-বর্ষ-পরীক্ষা-২০২৪-এর-ফরম-পূরণ-ও-টাকার-জমার-বিজ্ঞপ্তি.pdf",
+      "timestamp": "2025-11-11T17:14:11.500601"
+    },
+    {
+      "id": "78e221060e1c3d63e6f33abad5616ce3",
+      "serial": "7",
+      "title": "একাদশ শ্রেণি ২০২৫-২০২৬ শিক্ষাবর্ষের বোর্ড বৃত্তি সংক্রান্ত জরুরি বিজ্ঞপ্তি",
+      "date": "03-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/b193aabcd33bdca4-একাদশ-শ্রেণি-২০২৫-২০২৬-শিক্ষাবর্ষের-বোর্ড-বৃত্তি-সংক্রান্ত-জরুরি-বিজ্ঞপ্তি.pdf",
+      "timestamp": "2025-11-11T17:14:11.500629"
+    },
+    {
+      "id": "aff140cf968156543ead09abf3c81e85",
+      "serial": "8",
+      "title": "বোর্ড বৃত্তির আবেদন ফরম",
+      "date": "03-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/a0c6d0a126c0bbcd-বোর্ড-বৃত্তির-আবেদন-ফরম.pdf",
+      "timestamp": "2025-11-11T17:14:11.500656"
+    },
+    {
+      "id": "744e5eb24ef8d4459707c9189b0eaa29",
+      "serial": "9",
+      "title": "একাদশ(২০২৫-২৬) শ্রেণির শিক্ষার্থীদের CT-1 এর প্রবেশপত্র ডাউনলোড করার পদ্ধতি।",
+      "date": "02-11-2025",
+      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/92dc0d35b9214dce-screenshot_20251102_135300_adobe-acrobat.jpg",
+      "timestamp": "2025-11-11T17:14:11.500683"
+    },
+    {
+      "id": "de5f171fc9bf982f2c71cd68cd66ecbb",
+      "serial": "10",
       "title": "একাদশ শ্রেণির ২০২৫-২০২৬ শিক্ষাবর্ষের ইমদাদ-সিতারা খান ফাউন্ডেশনের বৃত্তির দরখাস্ত আহ্বানের বিজ্ঞপ্তি.pdf",
       "date": "29-10-2025",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/e8aa4d0d95a57a65-একাদশ-শ্রেণির-২০২৫-২০২৬-শিক্ষাবর্ষের--ইমদাদ-সিতারা-খান-ফাউন্ডেশনের-বৃত্তির-দরখাস্ত-আহ্বানের-বিজ্ঞপ্তি.pdf",
-      "timestamp": "2025-10-29T07:24:47.201101"
-    },
-    {
-      "id": "e1425c147c7995adca600e86ada4d68e",
-      "serial": "2",
-      "title": "XII (2024-2025) Practical Class Routine",
-      "date": "28-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/f4d31ac611726b97-xii-(2024-2025)-practical-class-routine.pdf",
-      "timestamp": "2025-10-29T07:24:47.201147"
-    },
-    {
-      "id": "b0968166fe97f0f94794bc1a0131be62",
-      "serial": "3",
-      "title": "ফুসফুস ক্যান্সার সচেতনতামূলক আলোচনা সভার বিজ্ঞপ্তি",
-      "date": "28-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/8edc0bbe1c0328e5-ফুসফুস-ক্যান্সার-সচেতনতামূলক-আলোচনা-সভার-বিজ্ঞপ্তি.pdf",
-      "timestamp": "2025-10-29T07:24:47.201185"
-    },
-    {
-      "id": "22af8dfdbf6962a7276a7cba62bc88ae",
-      "serial": "4",
-      "title": "ঢাকা বিশ্ববিদ্যালয়ের অধীন ২০২৩ সনের অনার্স ১ম বর্ষ পরীক্ষায় উত্তীর্ণ ছাত্রদের অনার্স ২য় বর্ষে সংশোধিত ভর্তি সংক্রান্ত বিজ্ঞপ্তি",
-      "date": "28-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/40405d73846a910f-ঢাকা-বিশ্ববিদ্যালয়ের-অধীন-২০২৩-সনের-অনার্স-১ম-বর্ষ-পরীক্ষায়-উত্তীর্ণ-ছাত্রদের-অনার্স-২য়-বর্ষে-সংশোধিত-ভর্তি-সংক্রান্ত-বিজ্ঞপ্তি.pdf",
-      "timestamp": "2025-10-29T07:24:47.201221"
-    },
-    {
-      "id": "557b3944537de3918945726a69f37bc5",
-      "serial": "5",
-      "title": "অনার্স ৪র্থ বর্ষ পরীক্ষা-২০২৪ উপলক্ষে অনার্স ও মাস্টার্স ক্লাস স্থগিতের বিজ্ঞপ্তি",
-      "date": "27-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/8fdb645a6af80a49-অনার্স-৪র্থ-বর্ষ-পরীক্ষা-২০২৪-উপলক্ষে-অনার্স-ও-মাস্টার্স-ক্লাস-স্থগিতের-বিজ্ঞপ্তি.pdf",
-      "timestamp": "2025-10-29T07:24:47.201275"
-    },
-    {
-      "id": "8fb06157930d65e27374549128ea332f",
-      "serial": "6",
-      "title": "NOC for Rafiqul Islam",
-      "date": "23-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/9b38c56c9596fbd5-noc-for-rafiqul-islam.pdf",
-      "timestamp": "2025-10-29T07:24:47.201311"
-    },
-    {
-      "id": "8d04927d33b801aa6707e5ac44cf9d59",
-      "serial": "7",
-      "title": "NOC Mohammad Mahmudul Hasan",
-      "date": "23-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/7066909342bdc9c7-noc-mohammad-mahmudul-hasan.pdf",
-      "timestamp": "2025-10-29T07:24:47.201342"
-    },
-    {
-      "id": "4f9ece52ec2b96db4accb05d796756a6",
-      "serial": "8",
-      "title": "XI (2025-2026) CT-1 Routine",
-      "date": "23-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/1866d68726297801-xi-(2025-2026)-ct-1-routine.pdf",
-      "timestamp": "2025-10-29T07:24:47.201373"
-    },
-    {
-      "id": "6ef008c08acf774707bfe17b8470e572",
-      "serial": "9",
-      "title": "মূল ভবনে উচ্চমাধ্যমিক ক্লাস চলাকালীন সময়ে পরীক্ষা ও প্রবেশ সংক্রান্ত জরুরি বিজ্ঞপ্তি.pdf",
-      "date": "23-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/e3387c47b243795a-মূল-ভবনে-উচ্চমাধ্যমিক-ক্লাস-চলাকালীন-সময়ে-পরীক্ষা-ও-প্রবেশ-সংক্রান্ত-জরুরি-বিজ্ঞপ্তি.pdf",
-      "timestamp": "2025-10-29T07:24:47.201408"
-    },
-    {
-      "id": "d635d14d8264e592b3784853f6bc0221",
-      "serial": "10",
-      "title": "NOC for Ahmmed Karim",
-      "date": "21-10-2025",
-      "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/a90ed06ff8f03af4-noc-for-ahmmed-karim.pdf",
-      "timestamp": "2025-10-29T07:24:47.201441"
+      "timestamp": "2025-11-11T17:14:11.500711"
     }
   ],
-  "last_check": "2025-10-29T07:24:47.967906"
+  "last_check": "2025-11-11T17:14:13.450056"
 }
