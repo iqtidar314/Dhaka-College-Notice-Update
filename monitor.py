@@ -206,37 +206,56 @@ class NoticeMonitor:
                 error_data["last_error"]["sent"] = True
     
         self.save_error_state(error_data)
-    
     def send_resolved_notification(self):
         error_data = self.load_error_state()
         last_error = error_data.get("last_error", {})
         previous_error = error_data.get("previous_error", {})
-    
+
+        # ---------------------------------------------------------
+        # PRIORITY 1: Check if we are recovering from a GitHub Runner crash
+        # ---------------------------------------------------------
+        # If this script is running, the Runner is obviously fixed. 
+        # We check if the last recorded error was a runner failure.
+        if last_error.get("type") == "runner_failure" and last_error.get("active", False):
+            
+            # Only send a message if we actually alerted the user about the crash
+            if last_error.get("sent", False):
+                count = last_error.get("count", 0)
+                msg = (
+                    f"✅ <b>GitHub Action Fixed!</b>\n"
+                    f"The internal runner failure occurred {count} times consecutively.\n"
+                    "The monitor script has successfully started running again."
+                )
+                self.send_telegram_message(msg, disable_sound=True)
+            
+            # CRITICAL: Reset state completely. A runner crash resets the board.
+            error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
+            error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
+            self.save_error_state(error_data)
+            return  # Exit immediately, we are done.
+
+        # ---------------------------------------------------------
+        # PRIORITY 2: Standard Error Resolution (Network, Structure, etc.)
+        # ---------------------------------------------------------
         if last_error.get("active", False):
             count = last_error.get("count", 0)
             error_type = last_error.get("type", "Unknown")
             was_sent = last_error.get("sent", False)
             
-            # Check if current error was sent (>=3 times)
+            # Case A: The current error was significant (>= 3 strikes) and sent
             if was_sent:
-                # Send resolution message for the current error
                 msg = (
                     f"✅ <b>Error Resolved!</b>\n"
                     f"The previous error <b>{error_type}</b> occurred {count} time(s) consecutively.\n"
                     "The monitor is working again as expected."
                 )
-                if not self.send_telegram_message(msg, disable_sound=True):
-                    return
-                
-                # Reset error state completely
-                error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
-                error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
+                self.send_telegram_message(msg, disable_sound=True)
             
-            # Current error wasn't sent (<3 times) but there's an active previous error
+            # Case B: Current error wasn't sent (<3 strikes), but we had a previous major error
+            # Example: Network Error (Sent) -> Structure Error (1 time) -> Success
             elif not was_sent and previous_error.get("active", False):
-                # Check if the previous error should be resolved or restored
+                
                 if previous_error.get("sent", False):
-                    # Previous error was sent (>=3 times), so send resolution message for it
                     prev_type = previous_error.get("type", "Unknown")
                     prev_count = previous_error.get("count", 0)
                     msg = (
@@ -244,23 +263,16 @@ class NoticeMonitor:
                         f"The previous error <b>{prev_type}</b> occurred {prev_count} time(s) consecutively.\n"
                         "The monitor is working again as expected."
                     )
-                    if not self.send_telegram_message(msg, disable_sound=True):
-                        return
-                    
-                    # Reset completely after resolution
-                    error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
-                    error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-                else:
-                    # Previous error wasn't sent either, just reset everything
-                    error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
-                    error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-            
-            # No previous error or current error wasn't significant - just reset
-            else:
-                error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
-                error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-    
-            self.save_error_state(error_data)
+                    self.send_telegram_message(msg, disable_sound=True)
+
+        # ---------------------------------------------------------
+        # FINAL STEP: Reset everything
+        # ---------------------------------------------------------
+        # Since the script ran successfully (reached this point), we clear all errors.
+        error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
+        error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
+        
+        self.save_error_state(error_data)
     def fetch_webpage(self):
         """Fetch the college notice webpage"""
         try:
