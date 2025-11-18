@@ -30,47 +30,48 @@ jobs:
         run: |
           if [ ! -d "venv" ]; then
             python -m venv venv
-            source venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-          else
-            echo "Using cached virtual environment"
           fi
           source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
           echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
           echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
 
       - name: Check for manual cache updates
         run: |
           if [ -f notice_cache.json ]; then
-            echo "Found existing cache file in repository"
+            echo "Found existing cache file"
           else
             echo "No cache file found, will create new one"
           fi
 
+      # --- MAIN SCRIPT ---
       - name: Run notice monitor
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python monitor.py
 
-      - name: Commit and push cache changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add notice_cache.json error_state.json log.txt 
-          git diff --staged --quiet || git commit -m "Update notice/error state - $(date)"
-          git push || echo "No changes to push"
-
-      # 🚨 NEW STEP: Send Telegram message if workflow fails
-      - name: Send failure notification to Telegram
-        if: failure()
+      # --- FAILURE HANDLER (Runs if anything above fails) ---
+      - name: Handle Runner Failure
+        if: failure() 
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python runner_handler.py
+
+      # --- COMMIT (Runs ALWAYS to save state) ---
+      - name: Commit and push changes
+        if: always()
         run: |
-          MESSAGE="🚨 GitHub Action Failed 🚨%0ARepo: ${{ github.repository }}%0AWorkflow: ${{ github.workflow }}%0ARun ID: ${{ github.run_id }}%0ACommit: ${{ github.sha }}%0AView logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
-               -d chat_id="${TELEGRAM_CHAT_ID}" \
-               -d text="$MESSAGE" \
-               -d parse_mode="HTML"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add potentially changed files
+          git add notice_cache.json error_state.json log.txt
+          
+          # Commit if there are changes
+          git diff --staged --quiet || git commit -m "Update state [${{ job.status }}] - $(date)"
+          
+          # Push
+          git push || echo "No changes to push"
