@@ -1,10 +1,10 @@
 {
   "last_error": {
-    "type": null,
-    "active": false,
-    "count": 0,
-    "sent": false,
-    "detail_error": ""
+    "type": "network",
+    "active": true,
+    "count": 1,
+    "detail_error": "HTTPSConnectionPool(host='www.dhakacollege.edu.bd', port=443): Max retries exceeded with url: /en/notice (Caused by SSLError(SSLZeroReturnError(6, 'TLS/SSL connection has been closed (EOF) (_ssl.c:1147)')))",
+    "sent": false
   },
   "previous_error": {
     "type": null,
