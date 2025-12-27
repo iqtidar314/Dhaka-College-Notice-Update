@@ -7002,3 +7002,4 @@
 2025-12-27 14:16:03 |  0.11s   | ❌Network error fetching webpage: 503 Server Error: Service Unavailable for url: https://www.dhakacollege.edu.bd/en/notice
 2025-12-27 14:43:21 |  0.10s   | ❌Network error fetching webpage: 503 Server Error: Service Unavailable for url: https://www.dhakacollege.edu.bd/en/notice
 2025-12-27 14:57:33 |  0.35s   | ❌Network error fetching webpage: 503 Server Error: Service Unavailable for url: https://www.dhakacollege.edu.bd/en/notice
+2025-12-27 15:27:53 |  0.11s   | ❌Network error fetching webpage: 503 Server Error: Service Unavailable for url: https://www.dhakacollege.edu.bd/en/notice
