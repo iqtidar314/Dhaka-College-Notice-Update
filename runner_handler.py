@@ -130,7 +130,7 @@ def handle_failure():
     # --- SEND LOGIC ---
     if error_count >= 3 and not error_data["last_error"]["sent"]:
         msg = (
-            f"🚨 <b>GitHub Action Failed!</b>\n"
+            f"🚨 <b>The DC Archive — Runner Failed!</b>\n"
             f"Repo: {repo}\n"
             f"Workflow: {workflow}\n"
             f"Occurred {error_count} times consecutively.\n"

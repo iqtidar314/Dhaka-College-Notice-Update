@@ -1,74 +1,67 @@
 
+"""
+Dhaka College Notice Monitor v2
+Orchestrates all modules for the complete rebrand
+"""
+
 import os
 import json
-import requests
-from bs4 import BeautifulSoup
-import hashlib
 from datetime import datetime, timezone, timedelta
-import sys
-import html
+from typing import Dict, List, Optional
+
+# Import modules
+from scraper import NoticeScraper
+from cache_manager import CacheManager
+from change_detector import ChangeDetector, ChangeType
+from content_processor import ContentProcessor
+from telegram_utils import TelegramUtils
+from dashboard_manager import DashboardManager
 
 
 class NoticeMonitor:
     def __init__(self):
-        self.url = "https://www.dhakacollege.edu.bd/en/notice"
-        self.telegram_token = os.getenv('TELEGRAM_TOKEN')
-        self.telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
-        self.cache_file = 'notice_cache.json'
+        self.scraper = NoticeScraper()
+        self.cache_manager = CacheManager()
+        self.change_detector = ChangeDetector()
+        self.content_processor = ContentProcessor()
+        self.telegram = TelegramUtils()
+        self.dashboard = DashboardManager(self.telegram)
+        
         self.error_file = 'error_state.json'
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        }
-
-    def load_cache(self):
-        """Load cached data from file"""
-        try:
-            if os.path.exists(self.cache_file):
-                with open(self.cache_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            return {"notices": [], "last_check": None}
-        except Exception as e:
-            print(f"Error loading cache: {e}")
-            return {"notices": [], "last_check": None}
+        self.log_file = 'log.json'
     
-    def save_cache(self, data):
-        """Save data to cache file"""
-        try:
-            with open(self.cache_file, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            print(f"Error saving cache: {e}")
-    
-    def load_error_state(self):
+    def load_error_state(self) -> Dict:
+        """Load error state from file"""
         try:
             if os.path.exists(self.error_file):
                 with open(self.error_file, 'r', encoding='utf-8') as f:
                     return json.load(f)
         except Exception as e:
-            print(f"Error loading error state: {e}")
+            print(f"⚠️ Error loading error state: {e}")
         return {"last_error": {"type": None, "active": False}}
-
-    def save_error_state(self, data):
+    
+    def save_error_state(self, data: Dict):
+        """Save error state to file"""
         try:
             with open(self.error_file, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
         except Exception as e:
-            print(f"Error saving error state: {e}")
-
-    def send_error_notification(self, error_type, details=None):
+            print(f"❌ Error saving error state: {e}")
+    
+    def send_error_notification(self, error_type: str, details: Dict = None):
+        """Send error notification with 3-strike rule"""
         error_data = self.load_error_state()
         last_error = error_data.get("last_error", {})
         previous_error = error_data.get("previous_error", {})
-    
+        
         current_error_type = last_error.get("type")
         current_count = last_error.get("count", 0)
         current_sent = last_error.get("sent", False)
         current_active = last_error.get("active", False)
-    
-        # Case 1: Same error type as currently tracked
+        
+        # Same error type
         if current_error_type == error_type and current_active:
             error_count = current_count + 1
-            
             error_data["last_error"] = {
                 "type": error_type,
                 "active": True,
@@ -76,48 +69,23 @@ class NoticeMonitor:
                 "detail_error": str(details.get('error', '')) if details else "",
                 "sent": current_sent
             }
-    
-        # Case 2: Different error type
+        # Different error type
         elif current_error_type != error_type:
-            # Check if we need to restore previous error that matches current error_type
-            if (previous_error.get("active", False) and 
-                previous_error.get("type") == error_type and 
-                current_count < 3 and not current_sent):
-                # Restore previous error and continue its count
-                error_count = previous_error.get("count", 0) + 1
-                
-                error_data["last_error"] = {
-                    "type": error_type,
-                    "active": True,
-                    "count": error_count,
-                    "detail_error": str(details.get('error', '')) if details else "",
-                    "sent": previous_error.get("sent", False)
+            if current_active and current_sent and current_count >= 3:
+                error_data["previous_error"] = {
+                    "type": current_error_type,
+                    "count": current_count,
+                    "sent": True,
+                    "active": True
                 }
-                
-                # Clear previous error since we restored it
-                error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-            
-            else:
-                # If current error was sent (>=3 times), store it as previous_error
-                if current_active and current_sent and current_count >= 3:
-                    error_data["previous_error"] = {
-                        "type": current_error_type,
-                        "count": current_count,
-                        "sent": True,
-                        "active": True  # Mark as active so we know to track it
-                    }
-                
-                # Start new error tracking from 1
-                error_count = 1
-                error_data["last_error"] = {
-                    "type": error_type,
-                    "active": True,
-                    "count": error_count,
-                    "detail_error": str(details.get('error', '')) if details else "",
-                    "sent": False
-                }
-    
-        # Case 3: First error or reactivating
+            error_count = 1
+            error_data["last_error"] = {
+                "type": error_type,
+                "active": True,
+                "count": error_count,
+                "detail_error": str(details.get('error', '')) if details else "",
+                "sent": False
+            }
         else:
             error_count = 1
             error_data["last_error"] = {
@@ -127,395 +95,237 @@ class NoticeMonitor:
                 "detail_error": str(details.get('error', '')) if details else "",
                 "sent": False
             }
-    
-        # Send message logic
+        
+        # Send message after 3 strikes
         if error_count >= 3 and not error_data["last_error"].get("sent", False):
-            # Check if there's a previous error that was being tracked
-            if previous_error.get("active", False) and previous_error.get("sent", False):
-                # New error reached 3 times during ongoing previous error
-                prev_type = previous_error.get("type", "Unknown")
-                prev_count = previous_error.get("count", 0)
-                
-                if error_type == "structure":
-                    err = html.escape(str(details.get('error', '')))
-                    msg = (
-                        "⚠️ <b>Website Structure Changed!</b>\n"
-                        f"Error details: <code>{err}</code>\n"
-                        f"Occurred {error_count} times consecutively.\n"
-                        "Please check and update the parser.\n\n"
-                        f"📋 <b>Note:</b> Previous <b>{prev_type}</b> error had occurred {prev_count} times before this new error appeared."
-                    )
-                elif error_type == "manualTimeout":
-                    err = html.escape(str(details.get('error', '')))
-                    msg = (
-                        "⚠️ <b>Manual Timeout Error!</b>\n"
-                        f"Error details: <code>{err}</code>\n"
-                        f"Occurred {error_count} times consecutively.\n"
-                        "Could not fetch the notice page.\n\n"
-                        f"📋 <b>Note:</b> Previous <b>{prev_type}</b> error had occurred {prev_count} times before this new error appeared."
-                    )
-                elif error_type == "network":
-                    err = html.escape(str(details.get('error', '')))
-                    msg = (
-                        "⚠️ <b>Network Error!</b>\n"
-                        f"Error details: <code>{err}</code>\n"
-                        f"Occurred {error_count} times consecutively.\n"
-                        "Could not fetch the notice page.\n\n"
-                        f"📋 <b>Note:</b> Previous <b>{prev_type}</b> error had occurred {prev_count} times before this new error appeared."
-                    )
-                else:
-                    msg = (
-                        f"⚠️ <b>Unknown Error:</b> {html.escape(str(details))}\n"
-                        f"Occurred {error_count} times consecutively.\n\n"
-                        f"📋 <b>Note:</b> Previous <b>{prev_type}</b> error had occurred {prev_count} times before this new error appeared."
-                    )
-                
-                # Forget the previous error after mentioning it
-                error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-                
-            else:
-                # Regular error message (no previous error context)
-                if error_type == "structure":
-                    err = html.escape(str(details.get('error', '')))
-                    msg = (
-                        "⚠️ <b>Website Structure Changed!</b>\n"
-                        f"Error details: <code>{err}</code>\n"
-                        f"Occurred {error_count} times consecutively.\n"
-                        "Please check and update the parser."
-                    )
-                elif error_type == "manualTimeout":
-                    err = html.escape(str(details.get('error', '')))
-                    msg = (
-                        "⚠️ <b>Manual Timeout Error!</b>\n"
-                        f"Error details: <code>{err}</code>\n"
-                        f"Occurred {error_count} times consecutively.\n"
-                        "Could not fetch the notice page."
-                    )
-                elif error_type == "network":
-                    err = html.escape(str(details.get('error', '')))
-                    msg = (
-                        "⚠️ <b>Network Error!</b>\n"
-                        f"Error details: <code>{err}</code>\n"
-                        f"Occurred {error_count} times consecutively.\n"
-                        "Could not fetch the notice page."
-                    )
-                else:
-                    msg = f"⚠️ <b>Unknown Error:</b> {html.escape(str(details))}\nOccurred {error_count} times consecutively."
-    
-            if self.send_telegram_message(msg, disable_sound=True):
+            msg = f"⚠️ <b>{error_type.upper()} Error!</b>\n"
+            msg += f"Occurred {error_count} times consecutively.\n"
+            if details and details.get('error'):
+                msg += f"Details: {details['error'][:200]}"
+            
+            if self.telegram.send_message(msg):
                 error_data["last_error"]["sent"] = True
-    
+        
         self.save_error_state(error_data)
+    
     def send_resolved_notification(self):
+        """Send resolved notification if error was active"""
         error_data = self.load_error_state()
         last_error = error_data.get("last_error", {})
-        previous_error = error_data.get("previous_error", {})
-
-        # ---------------------------------------------------------
-        # PRIORITY 1: Check if we are recovering from a GitHub Runner crash
-        # ---------------------------------------------------------
-        # If this script is running, the Runner is obviously fixed. 
-        # We check if the last recorded error was a runner failure.
-        if last_error.get("type") == "runner_failure" and last_error.get("active", False):
-            
-            # Only send a message if we actually alerted the user about the crash
-            if last_error.get("sent", False):
-                count = last_error.get("count", 0)
-                msg = (
-                    f"✅ <b>GitHub Action Fixed!</b>\n"
-                    f"The internal runner failure occurred {count} times consecutively.\n"
-                    "The monitor script has successfully started running again."
-                )
-                self.send_telegram_message(msg, disable_sound=True)
-            
-            # CRITICAL: Reset state completely. A runner crash resets the board.
-            error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
-            error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-            self.save_error_state(error_data)
-            return  # Exit immediately, we are done.
-
-        # ---------------------------------------------------------
-        # PRIORITY 2: Standard Error Resolution (Network, Structure, etc.)
-        # ---------------------------------------------------------
-        if last_error.get("active", False):
-            count = last_error.get("count", 0)
+        
+        if last_error.get("active", False) and last_error.get("sent", False):
             error_type = last_error.get("type", "Unknown")
-            was_sent = last_error.get("sent", False)
+            count = last_error.get("count", 0)
             
-            # Case A: The current error was significant (>= 3 strikes) and sent
-            if was_sent:
-                msg = (
-                    f"✅ <b>Error Resolved!</b>\n"
-                    f"The previous error <b>{error_type}</b> occurred {count} time(s) consecutively.\n"
-                    "The monitor is working again as expected."
-                )
-                self.send_telegram_message(msg, disable_sound=True)
+            msg = f"✅ <b>Error Resolved!</b>\n"
+            msg += f"The {error_type} error occurred {count} time(s).\n"
+            msg += "Monitor is working again."
             
-            # Case B: Current error wasn't sent (<3 strikes), but we had a previous major error
-            # Example: Network Error (Sent) -> Structure Error (1 time) -> Success
-            elif not was_sent and previous_error.get("active", False):
-                
-                if previous_error.get("sent", False):
-                    prev_type = previous_error.get("type", "Unknown")
-                    prev_count = previous_error.get("count", 0)
-                    msg = (
-                        f"✅ <b>Error Resolved!</b>\n"
-                        f"The previous error <b>{prev_type}</b> occurred {prev_count} time(s) consecutively.\n"
-                        "The monitor is working again as expected."
-                    )
-                    self.send_telegram_message(msg, disable_sound=True)
-
-        # ---------------------------------------------------------
-        # FINAL STEP: Reset everything
-        # ---------------------------------------------------------
-        # Since the script ran successfully (reached this point), we clear all errors.
+            self.telegram.send_message(msg)
+        
+        # Reset error state
         error_data["last_error"] = {"type": None, "active": False, "count": 0, "sent": False, "detail_error": ""}
         error_data["previous_error"] = {"type": None, "count": 0, "sent": False, "active": False}
-        
         self.save_error_state(error_data)
-    def fetch_webpage(self):
-        """Fetch the college notice webpage"""
-        try:
-            response = requests.get(self.url, headers=self.headers, timeout=10)
-            response.raise_for_status()
-            
-            return response.text
-        except requests.exceptions.Timeout as e:
-            self.send_error_notification("manualTimeout", {"error": str(e)})
-            print(f"❌Timeout fetching webpage: {e}")
-            runState= f"❌Timeout error fetching webpage: {e}"
-            return runState
-        except requests.exceptions.RequestException as e:
-            self.send_error_notification("network", {"error": str(e)})
-            print(f"Network error fetching webpage: {e}")
-            runState = f"❌Network error fetching webpage: {e}"
-            return runState
-        
-
-    def parse_notices(self, html_content):
-        """Parse notices from HTML content"""
-        try:
-            soup = BeautifulSoup(html_content, 'html.parser')
-            # Try the main selector first
-            tbody = soup.select_one("body > main > section > div.mt-6.flex.flex-col.gap-4.md\\:mt-8.md\\:gap-6.lg\\:mt-10.lg\\:gap-8 > div > table > tbody")
-            rows = []
-            if tbody:
-                rows = tbody.find_all('tr', class_='hover:bg-gray-50')
-            # Smart fallback: look for any table where a tr has 4 tds
-            if not rows:
-                for table in soup.find_all("table"):
-                    for tr in table.find_all("tr"):
-                        tds = tr.find_all("td")
-                        if len(tds) >= 4:
-                            rows = table.find_all("tr")
-                            break
-                    if rows:
-                        print("used # Smart fallback: look for any table where a tr has 4 tds or more")
-                        break
-            if not rows:
-                self.send_error_notification(
-                    "structure",
-                    {"error": "Could not find any table with rows containing 4 <td> elements."}
-                )
-                print("Could not find notice rows")
-                return []
-            notices = []
-            for row in rows:
-                cells = row.find_all('td')
-                if len(cells) >=4:
-                    serial = cells[0].get_text(strip=True)
-                    title = cells[1].get_text(strip=True)
-                    date = cells[2].get_text(strip=True)
-                    download_link = ""
-                    link_element = cells[3].find('a')
-                    if link_element and link_element.get('href'):
-                        download_link = link_element.get('href')
-                    notice_id = hashlib.md5(f"{title}{date}{download_link}".encode()).hexdigest()
-                    notice = {
-                        "id": notice_id,
-                        "serial": serial,
-                        "title": title,
-                        "date": date,
-                        "download_url": download_link,
-                        "timestamp": datetime.now().isoformat()
-                    }
-                    notices.append(notice)
-            return notices
-        except Exception as e:
-            self.send_error_notification("structure", {"error": f"Exception during parsing: {str(e)}"})
-            print(f"Error parsing notices: {e}")
-            return []
     
-    def get_new_notices(self, current_notices, cached_notices):
-        """Compare current notices with cached ones to find new notices"""
-        cached_ids = {notice['id'] for notice in cached_notices}
-        new_notices = []
+    def log_run(self, stats: Dict):
+        """Log run to structured JSON file"""
+        log_entry = {
+            "timestamp": datetime.now(timezone(timedelta(hours=6))).isoformat(),
+            "stats": stats
+        }
         
-        for notice in current_notices:
-            if notice['id'] not in cached_ids:
-                new_notices.append(notice)
+        logs = []
+        if os.path.exists(self.log_file):
+            try:
+                with open(self.log_file, 'r', encoding='utf-8') as f:
+                    logs = json.load(f)
+            except:
+                logs = []
         
-        # Return latest 3 new notices
-        return new_notices  #[:3]
+        logs.append(log_entry)
+        
+        # Keep last 100 runs
+        if len(logs) > 100:
+            logs = logs[-100:]
+        
+        with open(self.log_file, 'w', encoding='utf-8') as f:
+            json.dump(logs, f, ensure_ascii=False, indent=2)
     
-    def send_telegram_message(self, message, disable_sound=False):
-        """Send message to Telegram"""
+    def process_and_send_notice(self, notice: Dict, change_type: ChangeType) -> bool:
+        """Process a notice and send to Telegram"""
         try:
-            url = f"https://api.telegram.org/bot{self.telegram_token}/sendMessage"
-            print(disable_sound)
-            data = {
-                "chat_id": self.telegram_chat_id,
-                "text": message,
-                "parse_mode": "HTML",
-                "disable_web_page_preview": False,
-                "disable_notification": disable_sound
-            }
+            # Download and process media
+            images, pdf_hash, file_type = self.content_processor.process_notice_media(notice)
             
-            response = requests.post(url, data=data, timeout=30)
-            response.raise_for_status()
+            # Get PDF bytes if available
+            pdf_bytes = None
+            if file_type == 'pdf' and notice.get('download_url'):
+                pdf_bytes, _ = self.content_processor.download_file(notice['download_url'])
             
-            print("Telegram message sent successfully")
-            return True
+            # Convert images to bytes
+            image_bytes = self.content_processor.images_to_bytes(images) if images else []
             
+            # Send to Telegram
+            if change_type == ChangeType.REMOVED_FROM_PAGE_1:
+                return self.telegram.send_removed_notification(notice) is not None
+            else:
+                results = self.telegram.send_notice_with_media(notice, image_bytes, pdf_bytes)
+                return len(results) > 0
+        
         except Exception as e:
-            print(f"Error sending Telegram message: {e}")
+            print(f"❌ Error processing notice {notice.get('id')}: {e}")
             return False
     
-    def format_notice_message(self, notices):
-        """Format notices for Telegram message"""
-        if not notices:
-            return None
+    def run(self) -> Dict:
+        """Main execution flow"""
+        print("="*60)
+        print(f"🚀 The DC Archive — Notice Monitor v2")
+        print(f"⏰ {datetime.now(timezone(timedelta(hours=6))).strftime('%Y-%m-%d %H:%M:%S')}")
+        print("="*60)
         
-        with open("log.txt", "r", encoding="utf-8") as f:
-            lines = f.readlines()
-
-        # Take the last 3 lines (or fewer if file has less than 3 lines)
-        last_lines = [line.strip() for line in lines[-3:]]
-
-        # Split by "|" and take the 3rd portion (index 2) if available
-        third_parts = []
-        for line in last_lines:
-            parts = line.split("|")
-            if len(parts) >= 3:
-                third_parts.append(parts[2].strip())
-            else:
-                third_parts.append("")  # fallback if line has < 3 parts
-
-        # Compare third portions
-        if len(set(third_parts)) == 1:
-            # All same → just print last line
-            message ="previously checked:\n"+ last_lines[-1]
-        else:
-            # Different → print all 3
-            #for line in last_lines:
-            third_parts_str = "\n".join(last_lines)
-            message ="previously checked:\n" +  third_parts_str
-        current_time = datetime.now(timezone(timedelta(hours=6)))
-        message += f"\n🕐 Currently Checked at:\n{current_time.strftime('%Y-%m-%d %H:%M:%S')}"
-        message  += f"\n🔔 <b>New Notice(s) from Dhaka College!</b>\n\n"
+        stats = {
+            "status": "started",
+            "pages_scraped": 0,
+            "total_notices": 0,
+            "new_count": 0,
+            "edited_count": 0,
+            "pdf_replaced_count": 0,
+            "removed_count": 0,
+            "errors": []
+        }
         
-        for i, notice in enumerate(notices, 1):
-            message += f"<b>{i}. {notice['title']}</b>\n"
-            message += f"📅 Date: {notice['date']}\n"
-            if notice['download_url']:
-                message += f"📎 <a href='{notice['download_url']}'>Download PDF</a>\n"
-            message += "\n"
+        # Validate Telegram credentials
+        if not os.getenv('TELEGRAM_TOKEN') or not os.getenv('TELEGRAM_CHAT_ID'):
+            print("❌ TELEGRAM_TOKEN and TELEGRAM_CHAT_ID must be set")
+            stats["status"] = "error"
+            stats["errors"].append("Missing Telegram credentials")
+            return stats
         
+        # Load cache
+        cache_data = self.cache_manager.load_cache()
         
-        message += f"🌐 <a href='{self.url}'>View All Notices</a>"
-        
-        return message
-    
-    def run(self):
-
-        print(f"Starting notice monitor at {datetime.now()}")
-        runState="📢script started"
-        
-        # Validate environment variables
-        if not self.telegram_token or not self.telegram_chat_id:
-            print("Error: TELEGRAM_TOKEN and TELEGRAM_CHAT_ID must be set")
-            runState="❌telegram token or chat id is invalid"
-            return runState
-        
-        # Load cached data
-        cache_data = self.load_cache()
-        
-        # Fetch current webpage
-        html_content = self.fetch_webpage()
-        if html_content == None:
-            print("❌error fetching webpage(html_content is None)")
-            runState = "❌error fetching webpage(html_content is None)"
-            return runState
-        if "error fetching webpage" in html_content.lower():  
-            runState = html_content
-            print(html_content)
-            return runState 
-        else:
-            print("✅Page fetched successfully")
-            runState = "✅Page fetched successfully"
-        
-        # Parse current notices
-        current_notices = self.parse_notices(html_content)
-        
-        if not current_notices:
-            print("❌No notices found on the webpage")
-            self.send_error_notification(
-                "structure",
-                {"error": "No notices found on the webpage. The HTML structure may have changed."}
-            )
-            runState="❌No notices found on the webpage. The HTML structure may have changed."
-            return runState
-
-        self.send_resolved_notification()
-        print(f"Found {len(current_notices)} total notices")
-        runState = f"📢Found {len(current_notices)} total notices"
-        
-        # Find new notices
-        new_notices = self.get_new_notices(current_notices, cache_data.get("notices", []))
-        
-        if new_notices:
-            print(f"Found {len(new_notices)} new notices")
-            runState = f"📢Found {len(new_notices)} new notices"
+        # Scrape all pages
+        try:
+            all_notices, page_notices = self.scraper.scrape_all_pages()
+            stats["pages_scraped"] = len(page_notices)
+            stats["total_notices"] = len(all_notices)
             
-            # Send Telegram notification
-            message = self.format_notice_message(new_notices)
-            if message:
-                if "noc" in message.lower() and {len(new_notices)} == 1:
-                    disable_sound = True
-                else:
-                    disable_sound = False
-                success = self.send_telegram_message(message, disable_sound)
-                if success:
-                    print("Notification sent successfully")
-                    runState += " --> sent to telegram bot"
-                    # Update cache with current data
-                    cache_data["notices"] = current_notices
-                    cache_data["last_check"] = datetime.now().isoformat()
-                    self.save_cache(cache_data)
-                else:
-                    print("Failed to send notification")
-                    runState += " -->❌ filed to send notification"
-        else:
-            print("No new notices found")
-            runState = "🎈No new notices found"
+            if not all_notices:
+                self.send_error_notification("structure", {"error": "No notices found"})
+                stats["status"] = "error"
+                stats["errors"].append("No notices found")
+                return stats
+            
+        except Exception as e:
+            self.send_error_notification("network", {"error": str(e)})
+            stats["status"] = "error"
+            stats["errors"].append(str(e))
+            return stats
         
-        print("Monitor execution completed")
-        return runState
+        # Get page 1 notices for removal detection
+        page_1_notices = page_notices.get(1, [])
+        page_1_ids = {n['id'] for n in page_1_notices}
+        
+        # Process media and get PDF hashes
+        pdf_hashes = {}
+        for notice in all_notices:
+            if notice.get('download_url'):
+                file_type = self.content_processor.detect_file_type(notice['download_url'])
+                if file_type == 'pdf':
+                    _, pdf_hash = self.content_processor.download_file(notice['download_url'])
+                    if pdf_hash:
+                        pdf_hashes[notice['id']] = pdf_hash
+        
+        # Detect changes
+        changes = self.change_detector.detect_changes(
+            all_notices, page_1_notices, cache_data, pdf_hashes
+        )
+        
+        # Send resolved notification if applicable
+        self.send_resolved_notification()
+        
+        # Process each change
+        for change in changes:
+            try:
+                success = self.process_and_send_notice(change.notice_data, change.change_type)
+                
+                if success:
+                    if change.change_type == ChangeType.NEW:
+                        stats["new_count"] += 1
+                    elif change.change_type == ChangeType.EDITED:
+                        stats["edited_count"] += 1
+                    elif change.change_type == ChangeType.PDF_REPLACED:
+                        stats["pdf_replaced_count"] += 1
+                    elif change.change_type == ChangeType.REMOVED_FROM_PAGE_1:
+                        stats["removed_count"] += 1
+                        # Mark as removed in cache
+                        cache_data = self.cache_manager.mark_notice_removed(change.notice_id, cache_data)
+            
+            except Exception as e:
+                print(f"❌ Error sending change notification: {e}")
+                stats["errors"].append(str(e))
+        
+        # Update cache with current notices
+        for notice in all_notices:
+            was_on_page_1 = notice['id'] in page_1_ids
+            cache_data = self.cache_manager.update_notice(
+                notice, cache_data,
+                pdf_hash=pdf_hashes.get(notice['id']),
+                file_type=self.content_processor.detect_file_type(notice.get('download_url', '')),
+                was_on_page_1=was_on_page_1
+            )
+        
+        # Update page 1 tracking
+        cache_data = self.cache_manager.set_previous_page_1_ids(list(page_1_ids), cache_data)
+        
+        # Update dashboard
+        dashboard_stats = self.dashboard.calculate_stats(
+            cache_data, changes, page_1_notices, stats["pages_scraped"],
+            self.load_error_state()
+        )
+        message_id = self.dashboard.create_or_update_dashboard(cache_data, dashboard_stats)
+        
+        if message_id:
+            cache_data = self.cache_manager.set_dashboard_message_id(message_id, cache_data)
+        
+        # Save cache
+        self.cache_manager.save_cache(cache_data)
+        
+        # Log run
+        stats["status"] = "success"
+        self.log_run(stats)
+        
+        # Print summary
+        print("\n" + "="*60)
+        print("📊 RUN SUMMARY")
+        print("="*60)
+        print(f"✅ Status: {stats['status']}")
+        print(f"📄 Pages scraped: {stats['pages_scraped']}")
+        print(f"📋 Total notices: {stats['total_notices']}")
+        print(f"🆕 New: {stats['new_count']}")
+        print(f"✏️ Edited: {stats['edited_count']}")
+        print(f"📄 PDF replaced: {stats['pdf_replaced_count']}")
+        print(f"🗑️ Removed from page 1: {stats['removed_count']}")
+        if stats['errors']:
+            print(f"⚠️ Errors: {len(stats['errors'])}")
+        print("="*60)
+        
+        return stats
+
 
 if __name__ == "__main__":
-    start = datetime.now(timezone(timedelta(hours=6)))
     monitor = NoticeMonitor()
-    runState = monitor.run()
-    end = datetime.now(timezone(timedelta(hours=6)))
-    elapsed = (end - start).total_seconds()  
-    logTxt = f"{start.strftime('%Y-%m-%d %H:%M:%S')} |  {elapsed:.2f}s   | {runState}"
-    with open("log.txt", "a", encoding="utf-8") as f:
-        f.write(logTxt + "\n")
-        summary_file = os.getenv("GITHUB_STEP_SUMMARY")
+    stats = monitor.run()
+    
+    # Write to GitHub step summary if available
+    summary_file = os.getenv("GITHUB_STEP_SUMMARY")
     if summary_file:
-        print(runState)
         with open(summary_file, "a", encoding="utf-8") as f:
-            f.write(runState + "\n")
-    else:
-        # Local run: just print instead of writing to GitHub summary
-        print(f"[Local Summary] {runState}")
+            f.write(f"## Run Summary\n")
+            f.write(f"- Status: {stats['status']}\n")
+            f.write(f"- Pages scraped: {stats['pages_scraped']}\n")
+            f.write(f"- Total notices: {stats['total_notices']}\n")
+            f.write(f"- New: {stats['new_count']}\n")
+            f.write(f"- Edited: {stats['edited_count']}\n")
+            f.write(f"- Removed: {stats['removed_count']}\n")

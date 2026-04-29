@@ -1,4 +1,4 @@
-# College Notice Monitor
+# The DC Archive — Notice Monitor
 
 <div align="center">
 
@@ -6,20 +6,22 @@
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-Enabled-green.svg)
 ![Telegram Bot](https://img.shields.io/badge/Telegram-Bot_API-blue.svg)
 
-*An automated monitoring system that tracks new notices from Dhaka College and sends real-time notifications via Telegram.*
+*A premium automated monitoring system for Dhaka College notices with PDF-to-image conversion, rich media notifications, and live status dashboard.*
 
 </div>
 
 ## 🚀 Features
 
-- **🔄 Automated Monitoring**: Checks for new notices every 5 minutes using GitHub Actions
-- (On free GitHub accounts, it may take 5–30 minutes due to scheduling limits)
-- ⚡Fast Execution – Runs in ~15 seconds on GitHub runner (no risk of hitting the 2000 min/month limit)
-- **📱 Telegram Integration**: Instant notifications sent directly to your Telegram chat
-- **🛡️ Robust Error Handling – Detects errors, retries, and alerts you if failures persist
-- **💾 Smart Caching – Prevents duplicate or repeated notifications
-- **📊 Detailed Logging – Execution logs with runtime tracking
-- **🔧 Self-Healing – Recovers automatically from temporary failures
+- **🔄 Automated Monitoring**: Checks for new notices every 15 minutes using GitHub Actions
+- **📄 PDF-to-Image Conversion**: All PDF pages rendered as images with branding overlay
+- **🖼️ Rich Media Notifications**: Media groups with all pages + original PDF document
+- **🔍 Smart Change Detection**: Detects NEW, EDITED, PDF_REPLACED, and REMOVED notices
+- **📊 Live Status Dashboard**: Pinned Telegram message with real-time statistics
+- **📱 Premium Branding**: "Archived by The DC Archive" overlay on all images
+- **🔗 Inline Buttons**: Quick links to Facebook, Telegram channel, and website
+- **🛡️ Robust Error Handling**: 3-strike rule with recovery notifications
+- **� Versioned Cache**: Integrity checks and migration support
+- **🔧 Self-Healing**: Recovers automatically from temporary failures
 
 ## 📋 Prerequisites
 
