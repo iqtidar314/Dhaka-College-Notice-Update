@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "a7e38dfe974db8972113998e6944fe4f",
+      "id": "1c507550c5700f1ce84838fa184fc8f5",
       "serial": "1",
+      "title": "XI (2025-2026) Year final Routine",
+      "date": "14-05-2026",
+      "download_url": "",
+      "timestamp": "2026-05-14T07:23:28.246096"
+    },
+    {
+      "id": "a7e38dfe974db8972113998e6944fe4f",
+      "serial": "2",
       "title": "২০২৪-২০২৫ শিক্ষাবর্ষে মাস্টার্স শেষপর্বে ভর্তির আংশিক সংশোধিত বিজ্ঞপ্তি",
       "date": "13-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868450"
+      "timestamp": "2026-05-14T07:23:28.246147"
     },
     {
       "id": "1ddc0ed63f83c6af5a48874f4ab94fb8",
-      "serial": "2",
+      "serial": "3",
       "title": "মূল ভবনে অনার্স এবং মাস্টার্স শ্রেণির ক্লাসসমূহ সকাল ১১.৪০ মিনিট থেকে শুরু হওয়ার বিজ্ঞপ্তি",
       "date": "05-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868494"
+      "timestamp": "2026-05-14T07:23:28.246182"
     },
     {
       "id": "b7574177013ac1900e3074bfdd34e415",
-      "serial": "3",
+      "serial": "4",
       "title": "অনার্স ১ম বর্ষ (শিক্ষাবর্ষ ২০২৪-২০২৫) Fundamentals of Chemistry বিষয়ে ১ম ইনকোর্স পরীক্ষার বিজ্ঞপ্তি",
       "date": "05-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868529"
+      "timestamp": "2026-05-14T07:23:28.246216"
     },
     {
       "id": "00eb5bdd8b6200ccfde2c3faee202184",
-      "serial": "4",
+      "serial": "5",
       "title": "অনার্স ২য় বর্ষ (শিক্ষাবর্ষ ২০২৩-২০২৪) Sociology of Bangladesh বিষয়ে ১ম ইনকোর্স পরীক্ষার বিজ্ঞপ্তি",
       "date": "05-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868562"
+      "timestamp": "2026-05-14T07:23:28.246248"
     },
     {
       "id": "b314b7b40bf001d79e4311cfe2f303e0",
-      "serial": "5",
+      "serial": "6",
       "title": "Notice For Class XI",
       "date": "03-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868594"
+      "timestamp": "2026-05-14T07:23:28.246304"
     },
     {
       "id": "7675bcba715139fb9cb2bfd29acb5feb",
-      "serial": "6",
+      "serial": "7",
       "title": "Notice For HSC (2025-2026) Students about CT-3 29.04.26",
       "date": "29-04-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868627"
+      "timestamp": "2026-05-14T07:23:28.246338"
     },
     {
       "id": "3629d5208895933a535a195967c54782",
-      "serial": "7",
+      "serial": "8",
       "title": "প্রতিকূল আবহাওয়ার কারণে  অনার্স ১ম ও ২য় বর্ষের পরীক্ষা স্থগিতের বিজ্ঞপ্তি",
       "date": "29-04-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868658"
+      "timestamp": "2026-05-14T07:23:28.246371"
     },
     {
       "id": "790a9b10ac707b7ab95739aab4e7d54e",
-      "serial": "8",
+      "serial": "9",
       "title": "Notice For HSC Students",
       "date": "26-04-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868707"
+      "timestamp": "2026-05-14T07:23:28.246402"
     },
     {
       "id": "03c35e4dd45ecc324f084cde5b126e72",
-      "serial": "9",
+      "serial": "10",
       "title": "২০২৬ সালের উচ্চ মাধ্যমিক পরীক্ষার বিলম্ব ফিসহ ফরম পূরণের বিজ্ঞপ্তি",
       "date": "23-04-2026",
       "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868743"
-    },
-    {
-      "id": "437dfa848ba65dabe33a9f0f6000e172",
-      "serial": "10",
-      "title": "NOC for Md. Nazmul Hussain, Lecturer, Dept. of Philosophy",
-      "date": "21-04-2026",
-      "download_url": "",
-      "timestamp": "2026-05-13T10:34:29.868781"
+      "timestamp": "2026-05-14T07:23:28.246435"
     }
   ],
-  "last_check": "2026-05-13T10:34:30.592602"
+  "last_check": "2026-05-14T07:23:29.859302"
 }
