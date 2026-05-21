@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "f4ab93be22d5f34ae35033e9783c853b",
+      "id": "62b718c1d60062e551c4eaa0b071865f",
       "serial": "1",
+      "title": "Notice for Class Suspend",
+      "date": "21-05-2026",
+      "download_url": "",
+      "timestamp": "2026-05-21T05:19:09.902163"
+    },
+    {
+      "id": "f4ab93be22d5f34ae35033e9783c853b",
+      "serial": "2",
       "title": "Notice of CT-3 result of class XI",
       "date": "20-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942498"
+      "timestamp": "2026-05-21T05:19:09.902202"
     },
     {
       "id": "00501437cf9bfb8d2904db8ecd40df4e",
-      "serial": "2",
+      "serial": "3",
       "title": "শিক্ষার্থীদের অভ্যন্তরীণ ক্রীড়া প্রতিযোগিতায় নাম জমা দেয়ার বিজ্ঞপ্তি",
       "date": "20-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942544"
+      "timestamp": "2026-05-21T05:19:09.902233"
     },
     {
       "id": "51c44adbe25e33ebb7419d2a27ae5f37",
-      "serial": "3",
+      "serial": "4",
       "title": "মনোবিজ্ঞান বিভাগের অনাকাঙ্খিত ঘটনার বিষয়ে তদন্ত কমিটির মতামত জমা দেয়ার বিজ্ঞপ্তি",
       "date": "20-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942573"
+      "timestamp": "2026-05-21T05:19:09.902262"
     },
     {
       "id": "46a23beb5dcddc8e552f3c4fec4bb71a",
-      "serial": "4",
+      "serial": "5",
       "title": "২০২৪-২০২৫ শিক্ষাবর্ষে মাস্টার্স শেষপর্বে ভর্তির আংশিক সংশোধনী বিজ্ঞপ্তি",
       "date": "19-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942602"
+      "timestamp": "2026-05-21T05:19:09.902290"
     },
     {
       "id": "77bd1827ccd121d079cc814131a1ac74",
-      "serial": "5",
+      "serial": "6",
       "title": "NOC for Binita Saha, Dept. of Management",
       "date": "19-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942629"
+      "timestamp": "2026-05-21T05:19:09.902317"
     },
     {
       "id": "1c507550c5700f1ce84838fa184fc8f5",
-      "serial": "6",
+      "serial": "7",
       "title": "XI (2025-2026) Year final Routine",
       "date": "14-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942656"
+      "timestamp": "2026-05-21T05:19:09.902344"
     },
     {
       "id": "a7e38dfe974db8972113998e6944fe4f",
-      "serial": "7",
+      "serial": "8",
       "title": "২০২৪-২০২৫ শিক্ষাবর্ষে মাস্টার্স শেষপর্বে ভর্তির আংশিক সংশোধিত বিজ্ঞপ্তি",
       "date": "13-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942686"
+      "timestamp": "2026-05-21T05:19:09.902390"
     },
     {
       "id": "1ddc0ed63f83c6af5a48874f4ab94fb8",
-      "serial": "8",
+      "serial": "9",
       "title": "মূল ভবনে অনার্স এবং মাস্টার্স শ্রেণির ক্লাসসমূহ সকাল ১১.৪০ মিনিট থেকে শুরু হওয়ার বিজ্ঞপ্তি",
       "date": "05-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942718"
+      "timestamp": "2026-05-21T05:19:09.902419"
     },
     {
       "id": "b7574177013ac1900e3074bfdd34e415",
-      "serial": "9",
+      "serial": "10",
       "title": "অনার্স ১ম বর্ষ (শিক্ষাবর্ষ ২০২৪-২০২৫) Fundamentals of Chemistry বিষয়ে ১ম ইনকোর্স পরীক্ষার বিজ্ঞপ্তি",
       "date": "05-05-2026",
       "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942745"
-    },
-    {
-      "id": "00eb5bdd8b6200ccfde2c3faee202184",
-      "serial": "10",
-      "title": "অনার্স ২য় বর্ষ (শিক্ষাবর্ষ ২০২৩-২০২৪) Sociology of Bangladesh বিষয়ে ১ম ইনকোর্স পরীক্ষার বিজ্ঞপ্তি",
-      "date": "05-05-2026",
-      "download_url": "",
-      "timestamp": "2026-05-20T15:33:32.942787"
+      "timestamp": "2026-05-21T05:19:09.902449"
     }
   ],
-  "last_check": "2026-05-20T15:33:33.651207"
+  "last_check": "2026-05-21T05:19:10.791296"
 }
