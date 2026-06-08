@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "51e570eff2f42ccc8fd0c511eac66ca8",
+      "id": "cb372a530a889b8b11fd81f58b157252",
       "serial": "1",
+      "title": "NOC for Nesat Amin, Assistant Professor, Dept of English",
+      "date": "08-06-2026",
+      "download_url": "",
+      "timestamp": "2026-06-08T06:06:23.407382"
+    },
+    {
+      "id": "51e570eff2f42ccc8fd0c511eac66ca8",
+      "serial": "2",
       "title": "একাদশ শ্রেণি ২০২৫-২০২৬ শিক্ষাবর্ষের বোর্ড ও বিষয় পরিবর্তনের  বিজ্ঞপ্তি",
       "date": "07-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701022"
+      "timestamp": "2026-06-08T06:06:23.407434"
     },
     {
       "id": "f2ec786c3857acfd79e77f9906c6d1d6",
-      "serial": "2",
+      "serial": "3",
       "title": "NOC for Muhammad Abul Kalam Azad, Professor, Dept of Mathematics",
       "date": "03-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701066"
+      "timestamp": "2026-06-08T06:06:23.407468"
     },
     {
       "id": "62b718c1d60062e551c4eaa0b071865f",
-      "serial": "3",
+      "serial": "4",
       "title": "Notice for Class Suspend",
       "date": "21-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701095"
+      "timestamp": "2026-06-08T06:06:23.407501"
     },
     {
       "id": "f4ab93be22d5f34ae35033e9783c853b",
-      "serial": "4",
+      "serial": "5",
       "title": "Notice of CT-3 result of class XI",
       "date": "20-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701122"
+      "timestamp": "2026-06-08T06:06:23.407533"
     },
     {
       "id": "00501437cf9bfb8d2904db8ecd40df4e",
-      "serial": "5",
+      "serial": "6",
       "title": "শিক্ষার্থীদের অভ্যন্তরীণ ক্রীড়া প্রতিযোগিতায় নাম জমা দেয়ার বিজ্ঞপ্তি",
       "date": "20-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701153"
+      "timestamp": "2026-06-08T06:06:23.407565"
     },
     {
       "id": "51c44adbe25e33ebb7419d2a27ae5f37",
-      "serial": "6",
+      "serial": "7",
       "title": "মনোবিজ্ঞান বিভাগের অনাকাঙ্খিত ঘটনার বিষয়ে তদন্ত কমিটির মতামত জমা দেয়ার বিজ্ঞপ্তি",
       "date": "20-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701187"
+      "timestamp": "2026-06-08T06:06:23.407596"
     },
     {
       "id": "46a23beb5dcddc8e552f3c4fec4bb71a",
-      "serial": "7",
+      "serial": "8",
       "title": "২০২৪-২০২৫ শিক্ষাবর্ষে মাস্টার্স শেষপর্বে ভর্তির আংশিক সংশোধনী বিজ্ঞপ্তি",
       "date": "19-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701231"
+      "timestamp": "2026-06-08T06:06:23.407629"
     },
     {
       "id": "77bd1827ccd121d079cc814131a1ac74",
-      "serial": "8",
+      "serial": "9",
       "title": "NOC for Binita Saha, Dept. of Management",
       "date": "19-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701261"
+      "timestamp": "2026-06-08T06:06:23.407659"
     },
     {
       "id": "1c507550c5700f1ce84838fa184fc8f5",
-      "serial": "9",
+      "serial": "10",
       "title": "XI (2025-2026) Year final Routine",
       "date": "14-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701317"
-    },
-    {
-      "id": "a7e38dfe974db8972113998e6944fe4f",
-      "serial": "10",
-      "title": "২০২৪-২০২৫ শিক্ষাবর্ষে মাস্টার্স শেষপর্বে ভর্তির আংশিক সংশোধিত বিজ্ঞপ্তি",
-      "date": "13-05-2026",
-      "download_url": "",
-      "timestamp": "2026-06-07T04:55:04.701347"
+      "timestamp": "2026-06-08T06:06:23.407695"
     }
   ],
-  "last_check": "2026-06-07T04:55:06.036405"
+  "last_check": "2026-06-08T06:06:24.480862"
 }
