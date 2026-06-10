@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "8504a3e60c45b0b5d9457a32aff77cf9",
+      "id": "81a4d340f2a8fba17c9098de6e5c4c7d",
       "serial": "1",
+      "title": "জাতীয় রাজস্ব বোর্ডের প্রজেক্টে খন্ডকালীন কাজ করার জন্য আবেদন গ্রহণ আবেদনের শেষ তারিখ ১১ জুন",
+      "date": "10-06-2026",
+      "download_url": "",
+      "timestamp": "2026-06-10T06:41:15.719253"
+    },
+    {
+      "id": "8504a3e60c45b0b5d9457a32aff77cf9",
+      "serial": "2",
       "title": "জুলাই-৩৬ ভবনের সার্কিট ব্রেকার পুড়ে যাওয়ায় লিফট বন্ধের বিজ্ঞপ্তি",
       "date": "09-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047408"
+      "timestamp": "2026-06-10T06:41:15.719300"
     },
     {
       "id": "027c07b23d115d092dfaf72d3cd0b91a",
-      "serial": "2",
+      "serial": "3",
       "title": "NOC for Mohammad Hasan Tanvir",
       "date": "09-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047457"
+      "timestamp": "2026-06-10T06:41:15.719333"
     },
     {
       "id": "a0369de3d1e048c0610be760cf1e407b",
-      "serial": "3",
+      "serial": "4",
       "title": "একাদশ (2025-26) বার্ষিক -2026 পরীক্ষার প্রস্তুতির জন্য ছুটির নোটিশ",
       "date": "09-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047488"
+      "timestamp": "2026-06-10T06:41:15.719365"
     },
     {
       "id": "016690546d2ce6171566f25e2e3f7d15",
-      "serial": "4",
+      "serial": "5",
       "title": "রিডিং রুমে পাঠ কার্যক্রম বন্ধের বিজ্ঞপ্তি",
       "date": "08-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047516"
+      "timestamp": "2026-06-10T06:41:15.719397"
     },
     {
       "id": "cb372a530a889b8b11fd81f58b157252",
-      "serial": "5",
+      "serial": "6",
       "title": "NOC for Nesat Amin, Assistant Professor, Dept of English",
       "date": "08-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047544"
+      "timestamp": "2026-06-10T06:41:15.719429"
     },
     {
       "id": "51e570eff2f42ccc8fd0c511eac66ca8",
-      "serial": "6",
+      "serial": "7",
       "title": "একাদশ শ্রেণি ২০২৫-২০২৬ শিক্ষাবর্ষের বোর্ড ও বিষয় পরিবর্তনের  বিজ্ঞপ্তি",
       "date": "07-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047573"
+      "timestamp": "2026-06-10T06:41:15.719461"
     },
     {
       "id": "f2ec786c3857acfd79e77f9906c6d1d6",
-      "serial": "7",
+      "serial": "8",
       "title": "NOC for Muhammad Abul Kalam Azad, Professor, Dept of Mathematics",
       "date": "03-06-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047600"
+      "timestamp": "2026-06-10T06:41:15.719496"
     },
     {
       "id": "62b718c1d60062e551c4eaa0b071865f",
-      "serial": "8",
+      "serial": "9",
       "title": "Notice for Class Suspend",
       "date": "21-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047627"
+      "timestamp": "2026-06-10T06:41:15.719529"
     },
     {
       "id": "f4ab93be22d5f34ae35033e9783c853b",
-      "serial": "9",
+      "serial": "10",
       "title": "Notice of CT-3 result of class XI",
       "date": "20-05-2026",
       "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047653"
-    },
-    {
-      "id": "00501437cf9bfb8d2904db8ecd40df4e",
-      "serial": "10",
-      "title": "শিক্ষার্থীদের অভ্যন্তরীণ ক্রীড়া প্রতিযোগিতায় নাম জমা দেয়ার বিজ্ঞপ্তি",
-      "date": "20-05-2026",
-      "download_url": "",
-      "timestamp": "2026-06-09T13:24:25.047681"
+      "timestamp": "2026-06-10T06:41:15.719563"
     }
   ],
-  "last_check": "2026-06-09T13:24:25.848465"
+  "last_check": "2026-06-10T06:41:16.407995"
 }
