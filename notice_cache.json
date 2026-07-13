@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "5f10790159ba6a2fcc2689fa11f21ccb",
+      "id": "ac3221cd9822f6a354f01f6eb369bbf5",
       "serial": "1",
+      "title": "ঢাকা কলেজ মেডিকেল সেন্টারের জন্য ডাক্তার নিয়োগের বিজ্ঞপ্তি",
+      "date": "13-07-2026",
+      "download_url": "",
+      "timestamp": "2026-07-13T08:19:12.985094"
+    },
+    {
+      "id": "5f10790159ba6a2fcc2689fa11f21ccb",
+      "serial": "2",
       "title": "HSC (2025-2026) XII Class Start Date",
       "date": "07-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490223"
+      "timestamp": "2026-07-13T08:19:12.985147"
     },
     {
       "id": "fe0aebeb0565b604fb05f45f1d69419b",
-      "serial": "2",
+      "serial": "3",
       "title": "HSC (2025-2026) XII Class Routine",
       "date": "07-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490273"
+      "timestamp": "2026-07-13T08:19:12.985181"
     },
     {
       "id": "ab24af9f06f4382be9df755416e4a8ef",
-      "serial": "3",
+      "serial": "4",
       "title": "NOC for Ashrafunnaher, Associate Professor, Dept of Bangla",
       "date": "02-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490309"
+      "timestamp": "2026-07-13T08:19:12.985214"
     },
     {
       "id": "2359b494398c3300d5f11d7ed9a1b182",
-      "serial": "4",
+      "serial": "5",
       "title": "XI (2025-2026) Year Final 30.06.2026 & 02.07.2026 Exam Seat Plan",
       "date": "29-06-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490341"
+      "timestamp": "2026-07-13T08:19:12.985246"
     },
     {
       "id": "df1ce1d52ca069014511a60c4987d00e",
-      "serial": "5",
+      "serial": "6",
       "title": "অভ্যন্তরীণ ক্রীড়া প্রতিযোগিতা উপলক্ষ্যে নাম জমাদানের সংশোধিত বিজ্ঞপ্তি",
       "date": "28-06-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490378"
+      "timestamp": "2026-07-13T08:19:12.985283"
     },
     {
       "id": "cae710405cf60c1a38a82a76a641b63a",
-      "serial": "6",
+      "serial": "7",
       "title": "উচ্চমাধ্যমিক পরীক্ষা ২০২৬ এর প্রবেশপত্র বিতরণের বিজ্ঞপ্তি",
       "date": "21-06-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490411"
+      "timestamp": "2026-07-13T08:19:12.985317"
     },
     {
       "id": "e90d11bc1566aac69c8c8ebcbb06f124",
-      "serial": "7",
+      "serial": "8",
       "title": "একাদশ (2025-26) শ্রেণির বার্ষিক পরীক্ষার উত্তরপত্র বিতরণ ও ভুল ত্রুটি সংশোধনের বিশেষ রুটিন",
       "date": "21-06-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490443"
+      "timestamp": "2026-07-13T08:19:12.985351"
     },
     {
       "id": "6ab41ee2c0ec484ee795d8e6a18dce38",
-      "serial": "8",
+      "serial": "9",
       "title": "XI (2025-2026) Annual Exam 2 Subject Exam Date",
       "date": "21-06-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490475"
+      "timestamp": "2026-07-13T08:19:12.985382"
     },
     {
       "id": "1eabc1d4b43e3edc0553778e6c0b2808",
-      "serial": "9",
+      "serial": "10",
       "title": "একাদশ (2025-2026) বার্ষিক প্রাকটিকাল পরীক্ষার রুটিন",
       "date": "18-06-2026",
       "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490507"
-    },
-    {
-      "id": "38cb028231c501d9df6e3a85a8407d5f",
-      "serial": "10",
-      "title": "অভ্যন্তরীণ ক্রীড়া প্রতিযোগিতার সংশোধিত বিজ্ঞপ্তি",
-      "date": "17-06-2026",
-      "download_url": "",
-      "timestamp": "2026-07-07T08:28:25.490541"
+      "timestamp": "2026-07-13T08:19:12.985444"
     }
   ],
-  "last_check": "2026-07-07T08:28:26.619775"
+  "last_check": "2026-07-13T08:19:13.835174"
 }
