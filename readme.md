@@ -1,4 +1,4 @@
-# College Notice Monitor
+# College Notice MonitorX
 
 <div align="center">
 
