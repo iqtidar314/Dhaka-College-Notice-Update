@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "721d2d66394db42cdbbeb7c4e1c0710a",
+      "id": "dbf2f0aa4f0064ce3cf54a4535863962",
       "serial": "1",
+      "title": "ঢাকা কলেজ অভ্যন্তরীণ ক্রীড়া প্রতিযোগিতা-২০২৬ এর উদ্বোধনী অনুষ্ঠানের বিজ্ঞপ্তি",
+      "date": "19-07-2026",
+      "download_url": "",
+      "timestamp": "2026-07-19T12:05:44.665601"
+    },
+    {
+      "id": "721d2d66394db42cdbbeb7c4e1c0710a",
+      "serial": "2",
       "title": "একাদশ (2025-2026) পুনঃ বার্ষিক পরীক্ষার রুটিন",
       "date": "19-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646646"
+      "timestamp": "2026-07-19T12:05:44.665650"
     },
     {
       "id": "9d39cd660540ee6091e46332b26577be",
-      "serial": "2",
+      "serial": "3",
       "title": "XI (2025-2026) Annual Exam Result Published Notice + Merit List",
       "date": "19-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646691"
+      "timestamp": "2026-07-19T12:05:44.665685"
     },
     {
       "id": "0841e944faf91d606ae60372645d420e",
-      "serial": "3",
+      "serial": "4",
       "title": "NOC for Farjana Islam, Professor, Dept. of English",
       "date": "15-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646725"
+      "timestamp": "2026-07-19T12:05:44.665725"
     },
     {
       "id": "a4f438b9f41a65347a59b6826083cef4",
-      "serial": "4",
+      "serial": "5",
       "title": "XII (2025-2026) Class Starting Notice",
       "date": "14-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646753"
+      "timestamp": "2026-07-19T12:05:44.665759"
     },
     {
       "id": "783ada0c440f926893784beb208dd06a",
-      "serial": "5",
+      "serial": "6",
       "title": "XII(2025-26) leave notice",
       "date": "13-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646780"
+      "timestamp": "2026-07-19T12:05:44.665812"
     },
     {
       "id": "f4cbd4bb72ead947fbe36ececf41975d",
-      "serial": "6",
+      "serial": "7",
       "title": "XI (2025-2026) Annual Exam Result Notice",
       "date": "13-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646807"
+      "timestamp": "2026-07-19T12:05:44.665848"
     },
     {
       "id": "ac3221cd9822f6a354f01f6eb369bbf5",
-      "serial": "7",
+      "serial": "8",
       "title": "ঢাকা কলেজ মেডিকেল সেন্টারের জন্য ডাক্তার নিয়োগের বিজ্ঞপ্তি",
       "date": "13-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646836"
+      "timestamp": "2026-07-19T12:05:44.665882"
     },
     {
       "id": "783ada0c440f926893784beb208dd06a",
-      "serial": "8",
+      "serial": "9",
       "title": "XII(2025-26) leave notice",
       "date": "13-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646864"
+      "timestamp": "2026-07-19T12:05:44.665914"
     },
     {
       "id": "5f10790159ba6a2fcc2689fa11f21ccb",
-      "serial": "9",
+      "serial": "10",
       "title": "HSC (2025-2026) XII Class Start Date",
       "date": "07-07-2026",
       "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646890"
-    },
-    {
-      "id": "fe0aebeb0565b604fb05f45f1d69419b",
-      "serial": "10",
-      "title": "HSC (2025-2026) XII Class Routine",
-      "date": "07-07-2026",
-      "download_url": "",
-      "timestamp": "2026-07-19T10:07:44.646919"
+      "timestamp": "2026-07-19T12:05:44.665948"
     }
   ],
-  "last_check": "2026-07-19T10:07:46.153636"
+  "last_check": "2026-07-19T12:05:45.598689"
 }
