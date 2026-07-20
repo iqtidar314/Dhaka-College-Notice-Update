@@ -2,8 +2,8 @@
   "last_error": {
     "type": "runner_failure",
     "active": true,
-    "count": 1,
-    "detail_error": "Workflow 'College Notice Monitor' failed. Run ID: 29709089583",
+    "count": 2,
+    "detail_error": "Workflow 'College Notice Monitor' failed. Run ID: 29710603404",
     "sent": false
   },
   "previous_error": {
