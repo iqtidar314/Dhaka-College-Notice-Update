@@ -17,8 +17,8 @@ class CacheManager:
     
     def _compute_integrity_hash(self, data: Dict) -> str:
         """Compute SHA-256 hash of cache data for integrity check"""
-        # Remove integrity_check field before hashing
-        data_copy = {k: v for k, v in data.items() if k != 'integrity_check'}
+        # Remove fields that change on every save
+        data_copy = {k: v for k, v in data.items() if k not in ['integrity_check', 'last_check']}
         data_str = json.dumps(data_copy, sort_keys=True, ensure_ascii=False)
         return hashlib.sha256(data_str.encode()).hexdigest()
     
@@ -29,6 +29,7 @@ class CacheManager:
             "notices": {},
             "previous_page_1_ids": [],
             "dashboard_message_id": None,
+            "uptime_streak": 0,
             "last_check": None,
             "integrity_check": ""
         }
@@ -43,18 +44,14 @@ class CacheManager:
             with open(self.cache_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             
-            # Verify integrity
-            stored_hash = data.get('integrity_check', '')
-            computed_hash = self._compute_integrity_hash(data)
-            
-            if stored_hash and stored_hash != computed_hash:
-                print("⚠️ Cache integrity check failed, creating fresh cache")
-                return self._create_empty_cache()
-            
-            # Migrate from v1 to v2 if needed
+            # Migrate from v1 to v2 if needed (this handles schema changes)
             if data.get('version', 1) < self.current_version:
                 print(f"📦 Migrating cache from v{data.get('version', 1)} to v{self.current_version}")
                 data = self._migrate_cache(data)
+            
+            # Ensure all required fields exist
+            if 'uptime_streak' not in data:
+                data['uptime_streak'] = 0
             
             print(f"✅ Cache loaded: {len(data.get('notices', {}))} notices")
             return data
@@ -207,6 +204,11 @@ class CacheManager:
         if notice_id in cache_data.get('notices', {}):
             cache_data['notices'][notice_id]['status'] = 'removed'
             cache_data['notices'][notice_id]['removed_at'] = datetime.now().isoformat()
+        return cache_data
+    
+    def increment_uptime_streak(self, cache_data: Dict) -> Dict:
+        """Increment the uptime streak counter"""
+        cache_data['uptime_streak'] = cache_data.get('uptime_streak', 0) + 1
         return cache_data
 
 

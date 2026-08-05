@@ -155,30 +155,57 @@ class NoticeMonitor:
     def process_and_send_notice(self, notice: Dict, change_type: ChangeType) -> bool:
         """Process a notice and send to Telegram"""
         try:
+            if hasattr(self, '_dispatched_this_run') and notice['id'] in self._dispatched_this_run:
+                print(f"⏭️ Skipping duplicate dispatch for {notice['id']}")
+                return False
+                
+            if not hasattr(self, '_dispatched_this_run'):
+                self._dispatched_this_run = set()
+                
+            self._dispatched_this_run.add(notice['id'])
+            
+            download_url = notice.get('download_url', '')
+            
+            # Skip notices without PDF URLs - send text only notification
+            if not download_url:
+                print(f"⚠️ No PDF URL for: {notice.get('title', 'Unknown')[:50]}")
+                results = self.telegram.send_notice_with_media(notice, change_type.value, [], None)
+                return len(results) > 0
+            
             # Download and process media
+            print(f"📥 Downloading PDF: {download_url}")
             images, pdf_hash, file_type = self.content_processor.process_notice_media(notice)
             
-            # Get PDF bytes if available
-            pdf_bytes = None
-            if file_type == 'pdf' and notice.get('download_url'):
-                pdf_bytes, _ = self.content_processor.download_file(notice['download_url'])
+            if not images:
+                print(f"⚠️ No images rendered for: {notice.get('title', 'Unknown')[:50]}")
+                results = self.telegram.send_notice_with_media(notice, change_type.value, [], None)
+                return len(results) > 0
+            
+            # Get PDF bytes
+            pdf_bytes, _ = self.content_processor.download_file(download_url)
             
             # Convert images to bytes
-            image_bytes = self.content_processor.images_to_bytes(images) if images else []
+            image_bytes = self.content_processor.images_to_bytes(images)
+            
+            print(f"📤 Sending {len(image_bytes)} images + PDF document")
             
             # Send to Telegram
             if change_type == ChangeType.REMOVED_FROM_PAGE_1:
                 return self.telegram.send_removed_notification(notice) is not None
             else:
-                results = self.telegram.send_notice_with_media(notice, image_bytes, pdf_bytes)
+                results = self.telegram.send_notice_with_media(notice, change_type.value, image_bytes, pdf_bytes)
                 return len(results) > 0
         
         except Exception as e:
             print(f"❌ Error processing notice {notice.get('id')}: {e}")
+            import traceback
+            traceback.print_exc()
             return False
     
     def run(self) -> Dict:
         """Main execution flow"""
+        self._dispatched_this_run = set()
+        
         print("="*60)
         print(f"🚀 The DC Archive — Notice Monitor v2")
         print(f"⏰ {datetime.now(timezone(timedelta(hours=6))).strftime('%Y-%m-%d %H:%M:%S')}")
@@ -246,21 +273,36 @@ class NoticeMonitor:
         self.send_resolved_notification()
         
         # Process each change
+        new_count = 0
+        page_1_ids_set = set(n['id'] for n in page_1_notices)
+        
         for change in changes:
+            # For NEW notices, optionally limit them
+            if change.change_type == ChangeType.NEW:
+                # Only process if notice was on page 1
+                if change.notice_id not in page_1_ids_set:
+                    print(f"⏭️ Skipping NEW notice not from page 1: {change.notice_data.get('title', 'Unknown')[:30]}")
+                    continue
+                
+                # Limit to 10 new notices per run
+                if new_count >= 10:
+                    print(f"⏭️ Reached limit of 10 new notices per run")
+                    continue
+            
             try:
+                print(f"📤 Processing change [{change.change_type.name}]: {change.notice_data.get('title', 'Unknown')[:40]}")
                 success = self.process_and_send_notice(change.notice_data, change.change_type)
                 
                 if success:
                     if change.change_type == ChangeType.NEW:
                         stats["new_count"] += 1
+                        new_count += 1
                     elif change.change_type == ChangeType.EDITED:
                         stats["edited_count"] += 1
                     elif change.change_type == ChangeType.PDF_REPLACED:
                         stats["pdf_replaced_count"] += 1
                     elif change.change_type == ChangeType.REMOVED_FROM_PAGE_1:
                         stats["removed_count"] += 1
-                        # Mark as removed in cache
-                        cache_data = self.cache_manager.mark_notice_removed(change.notice_id, cache_data)
             
             except Exception as e:
                 print(f"❌ Error sending change notification: {e}")
@@ -278,6 +320,9 @@ class NoticeMonitor:
         
         # Update page 1 tracking
         cache_data = self.cache_manager.set_previous_page_1_ids(list(page_1_ids), cache_data)
+        
+        # Increment uptime streak
+        cache_data = self.cache_manager.increment_uptime_streak(cache_data)
         
         # Update dashboard
         dashboard_stats = self.dashboard.calculate_stats(

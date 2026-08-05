@@ -8,8 +8,10 @@ import io
 import hashlib
 import requests
 from typing import Dict, List, Optional, Tuple
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageFilter
 import fitz  # PyMuPDF
+import numpy as np
+from branding import add_branding
 
 
 class ContentProcessor:
@@ -118,82 +120,79 @@ class ContentProcessor:
             print(f"⚠️ Could not load logo: {e}")
         return None
     
-    def add_branding_overlay(self, image: Image.Image, logo: Optional[Image.Image] = None) -> Image.Image:
-        """Add branding overlay to an image"""
-        # Ensure RGBA mode
-        if image.mode != 'RGBA':
-            image = image.convert('RGBA')
+    def smart_crop_whitespace(self, img: Image.Image, threshold=245, padding=20) -> Image.Image:
+        """Remove white borders while preserving content."""
+        img_array = np.array(img.convert("RGB"))
+        # Find rows/cols that are NOT pure white
+        mask = np.any(img_array < threshold, axis=2)
+        rows = np.any(mask, axis=1)
+        cols = np.any(mask, axis=0)
+        if not rows.any():
+            return img
+        rmin, rmax = np.where(rows)[0][[0, -1]]
+        cmin, cmax = np.where(cols)[0][[0, -1]]
+        # Add padding back
+        h, w = img_array.shape[:2]
+        rmin = max(0, rmin - padding)
+        rmax = min(h, rmax + padding)
+        cmin = max(0, cmin - padding)
+        cmax = min(w, cmax + padding)
+        return img.crop((cmin, rmin, cmax, rmax))
+
+
+    def _stitch_vertical(self, images: List[Image.Image], max_width: int, gap: int, gap_color: tuple) -> Image.Image:
+        scaled = []
+        for img in images:
+            r = max_width / img.width
+            scaled.append(img.resize((int(img.width * r), int(img.height * r)), Image.Resampling.LANCZOS))
         
-        # Create overlay layer
-        overlay = Image.new('RGBA', image.size, (0, 0, 0, 0))
-        draw = ImageDraw.Draw(overlay)
-        
-        # Calculate overlay dimensions
-        overlay_height = 60
-        top_bar_height = 50
-        bottom_bar_height = 40
-        
-        # Draw top bar (semi-transparent)
-        draw.rectangle(
-            [(0, 0), (image.width, top_bar_height)],
-            fill=self.overlay_bg_color
-        )
-        
-        # Draw bottom bar (semi-transparent)
-        draw.rectangle(
-            [(0, image.height - bottom_bar_height), (image.width, image.height)],
-            fill=self.overlay_bg_color
-        )
-        
-        # Composite overlay onto image
-        image = Image.alpha_composite(image, overlay)
-        
-        # Create new draw object for text
-        draw = ImageDraw.Draw(image)
-        
-        # Try to load a font, fallback to default
-        try:
-            font_large = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf", 16)
-            font_small = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf", 12)
-        except:
-            try:
-                font_large = ImageFont.truetype("arial.ttf", 16)
-                font_small = ImageFont.truetype("arial.ttf", 12)
-            except:
-                font_large = ImageFont.load_default()
-                font_small = ImageFont.load_default()
-        
-        # Add logo to top-left
-        if logo:
-            image.paste(logo, (10, 1), logo)
-            text_start_x = 68
+        total_h = sum(i.height for i in scaled) + gap * (len(scaled) - 1)
+        canvas = Image.new("RGB", (max_width, total_h), gap_color)
+        y = 0
+        for img in scaled:
+            canvas.paste(img, (0, y))
+            y += img.height + gap
+        return canvas
+
+    def _stitch_horizontal(self, images: List[Image.Image], gap: int, gap_color: tuple) -> Image.Image:
+        total_w = sum(i.width for i in images) + gap * (len(images) - 1)
+        max_h   = max(i.height for i in images)
+        canvas  = Image.new("RGB", (total_w, max_h), gap_color)
+        x = 0
+        for img in images:
+            canvas.paste(img, (x, 0))
+            x += img.width + gap
+        return canvas
+
+    def stitch_pages_vertical(
+        self,
+        page_images: List[Image.Image],
+        max_width: int = 1920,
+        gap: int = 8,
+        gap_color: tuple = (255, 255, 255),
+        max_pages_to_stitch: int = 8
+    ) -> List[Image.Image]:
+        """
+        Strategy:
+        - If 1-3 pages: stitch vertically into one tall image
+        - If 4-8 pages: stitch into a 2-column grid
+        - If 9+ pages: return original images unstitched
+        """
+        n = len(page_images)
+        if n == 0:
+            return []
+        if n <= 3:
+            return [self._stitch_vertical(page_images, max_width, gap, gap_color)]
+        elif n <= max_pages_to_stitch:
+            left  = page_images[0::2]
+            right = page_images[1::2]
+            col_w = (max_width - gap) // 2
+            left_strip  = self._stitch_vertical(left,  col_w, gap, gap_color)
+            right_strip = self._stitch_vertical(right, col_w, gap, gap_color)
+            return [self._stitch_horizontal([left_strip, right_strip], gap, gap_color)]
         else:
-            text_start_x = 10
-        
-        # Add branding text to top
-        draw.text(
-            (text_start_x, 15),
-            self.branding_name,
-            fill=self.text_color,
-            font=font_large
-        )
-        
-        # Add links to bottom
-        link_y = image.height - bottom_bar_height + 8
-        draw.text(
-            (10, link_y),
-            f"Facebook: {self.facebook_link}",
-            fill=self.text_color,
-            font=font_small
-        )
-        draw.text(
-            (10, link_y + 16),
-            f"Telegram: {self.telegram_link}",
-            fill=self.text_color,
-            font=font_small
-        )
-        
-        return image
+            # Document is too long. We just return individual pages to be sent as album.
+            return page_images
     
     def process_notice_media(self, notice: Dict) -> Tuple[List[Image.Image], Optional[str], str]:
         """
@@ -217,16 +216,19 @@ class ContentProcessor:
             if pdf_bytes:
                 images = self.render_pdf_to_images(pdf_bytes)
                 
-                # Load logo once
-                logo = self.load_logo()
-                
-                # Add branding to all pages
-                branded_images = []
+                # Apply smart crop
+                processed = []
                 for img in images:
-                    branded = self.add_branding_overlay(img, logo)
-                    branded_images.append(branded)
+                    img = self.smart_crop_whitespace(img)
+                    processed.append(img)
                 
-                return branded_images, pdf_hash, 'pdf'
+                # Stitch images if there are multiple
+                stitched_images = self.stitch_pages_vertical(processed, max_width=self.max_width)
+                
+                # Add branding overlay and bar to each stitched image
+                final_images = [add_branding(img) for img in stitched_images]
+                
+                return final_images, pdf_hash, 'pdf'
         
         elif file_type == 'image':
             # Download image directly
@@ -236,9 +238,8 @@ class ContentProcessor:
                 try:
                     img = Image.open(io.BytesIO(img_bytes))
                     
-                    # Add branding
-                    logo = self.load_logo()
-                    branded = self.add_branding_overlay(img, logo)
+                    # Process image
+                    branded = add_branding(img)
                     
                     return [branded], img_hash, 'image'
                 except Exception as e:

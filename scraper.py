@@ -70,13 +70,14 @@ class NoticeScraper:
             
             for row in rows:
                 cells = row.find_all('td')
-                if len(cells) >= 4:
+                if len(cells) >= 5:
                     serial = cells[0].get_text(strip=True)
                     title = cells[1].get_text(strip=True)
                     date = cells[2].get_text(strip=True)
                     download_link = ""
                     
-                    link_element = cells[3].find('a')
+                    # The link is in the 'Action' column which is now the 5th column (index 4) or last column
+                    link_element = cells[-1].find('a')
                     if link_element and link_element.get('href'):
                         download_link = link_element.get('href')
                         # Handle relative URLs

@@ -633,6 +633,9 @@ Tags: #issue #maintenance #scraping
 
 # 10. Change Log
 
+## 2026-04-29
+- Fixed scraper table column index bug due to website structure change (added 'View' column).
+
 ## 2026-04-28
 - Created project_cache.md
 - Documented all components, architecture, and data structures

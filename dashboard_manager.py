@@ -36,28 +36,27 @@ class DashboardManager:
             error_section = f"\n⚠️ <b>Error:</b> {error_type} ({error_count}x)"
         
         dashboard = f"""📊 <b>The DC Archive — Live Status</b>
+━━━━━━━━━━━━━━━━━━━━
 
-{status_emoji} <b>System:</b> {status.upper()}
-🕐 <b>Last check:</b> {last_check}
-📄 <b>Pages scraped:</b> {pages_scraped}
+{status_emoji} <b>System:</b> <code>{status.upper()}</code>
+🕐 <b>Last check:</b> <code>{last_check}</code>
+📄 <b>Pages scraped:</b> <code>{pages_scraped}</code>
 
 📈 <b>Notices:</b>
-• Total tracked: {total_notices}
-• On front page: {page_1_count}
+• <b>Total tracked:</b> <code>{total_notices}</code>
+• <b>On front page:</b> <code>{page_1_count}</code>
 
 📊 <b>Today:</b>
-• New: {new_today}
-• Edited: {edited_today}
-• Removed: {removed_today}
+• <b>New:</b> <code>{new_today}</code>
+• <b>Edited:</b> <code>{edited_today}</code>
+• <b>Removed:</b> <code>{removed_today}</code>
 {error_section}
-⏰ <b>Next check:</b> {next_check}
-🔥 <b>Uptime streak:</b> {uptime_streak} runs
+⏰ <b>Next check:</b> <code>{next_check}</code>
+🔥 <b>Uptime streak:</b> <code>{uptime_streak} runs</code>
 
-━━━━━━━━━━━━━━━━━━
-🔗 <a href='https://www.dhakacollege.edu.bd/en/notice'>Website</a> | 
-<a href='https://www.facebook.com/thedcarchive'>Facebook</a> | 
-<a href='https://t.me/thedcarchive_notice'>Telegram</a> |
-<a href='https://github.com/iqtidar314/Dhaka-College-Notice-Update'>GitHub</a>"""
+━━━━━━━━━━━━━━━━━━━━
+🔗 <a href='https://www.dhakacollege.edu.bd/en/notice'>Website</a> | <a href='https://www.facebook.com/thedcarchive'>Facebook</a>
+<a href='https://t.me/thedcarchive_notice'>Telegram</a> | <a href='https://github.com/iqtidar314/Dhaka-College-Notice-Update'>GitHub</a>"""
         
         return dashboard
     
@@ -68,6 +67,8 @@ class DashboardManager:
         """
         message_id = cache_data.get('dashboard_message_id')
         dashboard_text = self.format_dashboard(stats)
+        
+        print(f"📊 Dashboard: message_id={message_id}")
         
         if message_id:
             # Update existing dashboard
@@ -125,8 +126,8 @@ class DashboardManager:
         next_check_time = now + timedelta(minutes=15)
         next_check = next_check_time.strftime('%H:%M')
         
-        # Get uptime streak (from cache or initialize)
-        uptime_streak = cache_data.get('uptime_streak', 0) + 1
+        # Get uptime streak from cache
+        uptime_streak = cache_data.get('uptime_streak', 0)
         
         # Error state
         last_error = None

@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 Dhaka-College-Notice-Update.code-workspace
 git.md
+env
+.env
