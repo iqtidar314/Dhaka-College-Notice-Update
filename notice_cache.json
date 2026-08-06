@@ -1,85 +1,85 @@
 {
   "notices": [
     {
-      "id": "105ac10c73cc1c6aa60d8ea66706991e",
+      "id": "a6f24dc4eff21dc73a3d9a552bbe68ef",
       "serial": "1",
+      "title": "উচ্চ মাধ্যমিক -2026 আই সি টি ব্যবহারিক পরীক্ষার সময়সূচী এবং গ্রুপ সমূহ",
+      "date": "06-08-2026",
+      "download_url": "",
+      "timestamp": "2026-08-06T14:22:29.527230"
+    },
+    {
+      "id": "105ac10c73cc1c6aa60d8ea66706991e",
+      "serial": "2",
       "title": "উচ্চমাধ্যমিক সার্টিফিকেট পরীক্ষা-২০২৬ এর গ্রুপভিত্তিক ব্যবহারিক পরীক্ষার সময়সূচি",
       "date": "05-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243614"
+      "timestamp": "2026-08-06T14:22:29.527281"
     },
     {
       "id": "23ed7e31d510d45defe3a69ee7b1a561",
-      "serial": "2",
+      "serial": "3",
       "title": "২০২৪ সনের ৪র্থ বর্ষ অনার্স (বিশেষ) পরীক্ষার্থীদের ফরম পূরণ ও ফি জমা দেয়ার বিজ্ঞপ্তি",
       "date": "05-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243662"
+      "timestamp": "2026-08-06T14:22:29.527317"
     },
     {
       "id": "d8945d8e9b4d55803be21c704476f9c9",
-      "serial": "3",
+      "serial": "4",
       "title": "NOC for Farjana Hossain, Lecturer, Dept. of Management",
       "date": "04-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243692"
+      "timestamp": "2026-08-06T14:22:29.527351"
     },
     {
       "id": "685495098ebb1a9d03eed4e2b74c7583",
-      "serial": "4",
+      "serial": "5",
       "title": "Notice For XI (2025-2026) Annual Exam Fail Student",
       "date": "04-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243721"
+      "timestamp": "2026-08-06T14:22:29.527383"
     },
     {
       "id": "ac637612521006ffde6af8ff9b390055",
-      "serial": "5",
+      "serial": "6",
       "title": "জুলাই গণঅভ্যুত্থান দিবস-২০২৬ পালন উপলক্ষে রচনা ও কবিতা আবৃত্তি প্রতিযোগিতার বিজ্ঞপ্তি",
       "date": "04-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243749"
+      "timestamp": "2026-08-06T14:22:29.527417"
     },
     {
       "id": "6df83448b87a5499697c30ba420606b9",
-      "serial": "6",
+      "serial": "7",
       "title": "NOC for Shanaj Parvin, Professor, Dept. of Accounting",
       "date": "03-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243777"
+      "timestamp": "2026-08-06T14:22:29.527449"
     },
     {
       "id": "7f65a9b88ef231cb9dffabf043804dbc",
-      "serial": "7",
+      "serial": "8",
       "title": "NOC for Kazi Mosfika Parvin, Lecturer, Dept of Islamic Studies",
       "date": "03-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243805"
+      "timestamp": "2026-08-06T14:22:29.527483"
     },
     {
       "id": "af3c212af969a91d31357db278bd24ec",
-      "serial": "8",
+      "serial": "9",
       "title": "XI (2025-2026) Annual Re-Test Result Notice",
       "date": "03-08-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243831"
+      "timestamp": "2026-08-06T14:22:29.527515"
     },
     {
       "id": "80de95699372fd74546eea7d5b02b661",
-      "serial": "9",
+      "serial": "10",
       "title": "২০২৫-২৬ শিক্ষাবর্ষে দ্বাদশ শ্রেণির শিক্ষার্থীদের কলেজ, বোর্ড, বিষয়, ছবি ইত্যাদি পরিবর্তন সংক্রান্ত।",
       "date": "30-07-2026",
       "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243862"
-    },
-    {
-      "id": "576c5ce6579a46c239acc54a711f41dc",
-      "serial": "10",
-      "title": "NOC for Lubna Yeasmin, Associate Professor, Dept. of Bangla",
-      "date": "29-07-2026",
-      "download_url": "",
-      "timestamp": "2026-08-05T09:47:14.243891"
+      "timestamp": "2026-08-06T14:22:29.527550"
     }
   ],
-  "last_check": "2026-08-05T09:47:14.929872"
+  "last_check": "2026-08-06T14:22:30.354027"
 }
