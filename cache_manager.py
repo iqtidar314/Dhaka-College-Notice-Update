@@ -77,7 +77,8 @@ class CacheManager:
                         'first_seen': notice.get('timestamp', datetime.now().isoformat()),
                         'last_seen': datetime.now().isoformat(),
                         'history': [],
-                        'was_on_page_1': True  # Assume all v1 notices were on page 1
+                        'was_on_page_1': True,
+                        'telegram_message_ids': []
                     }
         # Handle v2 format (dict of notices)
         elif isinstance(old_data.get('notices'), dict):
@@ -171,7 +172,8 @@ class CacheManager:
                 'first_seen': datetime.now().isoformat(),
                 'last_seen': datetime.now().isoformat(),
                 'history': [],
-                'was_on_page_1': was_on_page_1
+                'was_on_page_1': was_on_page_1,
+                'telegram_message_ids': []
             }
         
         cache_data['notices'] = notices
@@ -209,6 +211,24 @@ class CacheManager:
     def increment_uptime_streak(self, cache_data: Dict) -> Dict:
         """Increment the uptime streak counter"""
         cache_data['uptime_streak'] = cache_data.get('uptime_streak', 0) + 1
+        return cache_data
+
+    def append_telegram_message_ids(self, notice_id: str, message_ids: List[int], cache_data: Dict) -> Dict:
+        """Append sent Telegram message IDs to a notice's record"""
+        notice = cache_data.get('notices', {}).get(notice_id)
+        if notice is not None:
+            existing = notice.get('telegram_message_ids', [])
+            existing.extend(message_ids)
+            notice['telegram_message_ids'] = existing
+            cache_data['notices'][notice_id] = notice
+        return cache_data
+
+    def set_removed_message_id(self, notice_id: str, message_id: int, cache_data: Dict) -> Dict:
+        """Store the message ID of the removal notification"""
+        notice = cache_data.get('notices', {}).get(notice_id)
+        if notice is not None:
+            notice['removed_message_id'] = message_id
+            cache_data['notices'][notice_id] = notice
         return cache_data
 
 

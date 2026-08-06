@@ -5,7 +5,7 @@ Manages the pinned live status message in Telegram
 
 from typing import Dict, Optional
 from datetime import datetime, timezone, timedelta
-from telegram_utils import TelegramUtils
+from telegram_utils import TelegramUtils, _link_footer
 
 
 class DashboardManager:
@@ -13,51 +13,43 @@ class DashboardManager:
         self.telegram = telegram_utils or TelegramUtils()
     
     def format_dashboard(self, stats: Dict) -> str:
-        """Format the dashboard message with HTML"""
-        status = stats.get('status', 'unknown')
-        status_emoji = '🟢' if status == 'online' else '🔴'
-        
-        last_check = stats.get('last_check', 'Never')
+        """Format the live status dashboard message."""
+        status        = stats.get('status', 'unknown')
+        status_icon   = 'ONLINE' if status == 'online' else 'OFFLINE'
+        last_check    = stats.get('last_check', 'Never')
         total_notices = stats.get('total_notices', 0)
-        page_1_count = stats.get('page_1_count', 0)
-        new_today = stats.get('new_today', 0)
-        edited_today = stats.get('edited_today', 0)
+        page_1_count  = stats.get('page_1_count', 0)
+        new_today     = stats.get('new_today', 0)
+        edited_today  = stats.get('edited_today', 0)
         removed_today = stats.get('removed_today', 0)
         pages_scraped = stats.get('pages_scraped', 0)
-        next_check = stats.get('next_check', 'Unknown')
+        next_check    = stats.get('next_check', 'Unknown')
         uptime_streak = stats.get('uptime_streak', 0)
-        
-        # Error section
-        error_section = ""
+
+        error_line = ""
         last_error = stats.get('last_error')
         if last_error and last_error.get('active'):
-            error_type = last_error.get('type', 'Unknown')
+            error_type  = last_error.get('type', 'Unknown')
             error_count = last_error.get('count', 0)
-            error_section = f"\n⚠️ <b>Error:</b> {error_type} ({error_count}x)"
-        
-        dashboard = f"""📊 <b>The DC Archive — Live Status</b>
-━━━━━━━━━━━━━━━━━━━━
+            error_line  = f"\n<b>Error:</b> {error_type} ({error_count} consecutive)"
 
-{status_emoji} <b>System:</b> <code>{status.upper()}</code>
-🕐 <b>Last check:</b> <code>{last_check}</code>
-📄 <b>Pages scraped:</b> <code>{pages_scraped}</code>
+        links = _link_footer()
 
-📈 <b>Notices:</b>
-• <b>Total tracked:</b> <code>{total_notices}</code>
-• <b>On front page:</b> <code>{page_1_count}</code>
-
-📊 <b>Today:</b>
-• <b>New:</b> <code>{new_today}</code>
-• <b>Edited:</b> <code>{edited_today}</code>
-• <b>Removed:</b> <code>{removed_today}</code>
-{error_section}
-⏰ <b>Next check:</b> <code>{next_check}</code>
-🔥 <b>Uptime streak:</b> <code>{uptime_streak} runs</code>
-
-━━━━━━━━━━━━━━━━━━━━
-🔗 <a href='https://www.dhakacollege.edu.bd/en/notice'>Website</a> | <a href='https://www.facebook.com/thedcarchive'>Facebook</a>
-<a href='https://t.me/thedcarchive_notice'>Telegram</a> | <a href='https://github.com/iqtidar314/Dhaka-College-Notice-Update'>GitHub</a>"""
-        
+        dashboard = (
+            f"<b>The DC Archive — Live Monitor</b>\n\n"
+            f"Status: <code>{status_icon}</code>  ·  "
+            f"Last check: <code>{last_check}</code>  ·  "
+            f"Next: <code>{next_check}</code>\n\n"
+            f"Notices tracked: <code>{total_notices}</code>  ·  "
+            f"Front page: <code>{page_1_count}</code>  ·  "
+            f"Pages scraped: <code>{pages_scraped}</code>\n\n"
+            f"Today — New: <code>{new_today}</code>  "
+            f"Edited: <code>{edited_today}</code>  "
+            f"Removed: <code>{removed_today}</code>\n\n"
+            f"Uptime streak: <code>{uptime_streak} runs</code>"
+            f"{error_line}\n\n"
+            f"{links}"
+        )
         return dashboard
     
     def create_or_update_dashboard(self, cache_data: Dict, stats: Dict) -> Optional[int]:

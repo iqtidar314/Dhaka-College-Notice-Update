@@ -17,12 +17,11 @@ TEXT_COLOR = (230, 230, 230)
 SUBTEXT_COLOR = (150, 160, 175)
 
 WATERMARK_TEXT = "THE DC ARCHIVE"
-WATERMARK_SUBTEXT = "VERIFIED DOCUMENT"
 WATERMARK_COLOR = (45, 100, 200)   # slightly more saturated brand blue
-WATERMARK_OPACITY = 35             # reduced slightly for the bolder design
-WATERMARK_ANGLE = 35
-WATERMARK_SPACING_X = 450          # wider spacing for brick pattern
-WATERMARK_SPACING_Y = 280
+WATERMARK_OPACITY = 56             # reduced slightly for the bolder design
+WATERMARK_ANGLE = 40
+WATERMARK_SPACING_X = 430         # wider spacing for brick pattern
+WATERMARK_SPACING_Y = 290
 
 FONT_BOLD_PATH = "assets/fonts/Inter-Bold.ttf"
 FONT_REG_PATH = "assets/fonts/Inter-Regular.ttf"
@@ -54,9 +53,7 @@ def _tiled_watermark(size):
             # Draw main text centered at (x, y)
             tdraw.text((x, y), WATERMARK_TEXT, font=font_main,
                        fill=WATERMARK_COLOR + (WATERMARK_OPACITY,), anchor="ma")
-            # Draw subtext right below it
-            tdraw.text((x, y + 55), WATERMARK_SUBTEXT, font=font_sub,
-                       fill=WATERMARK_COLOR + (WATERMARK_OPACITY,), anchor="ma")
+
                        
     tile = tile.rotate(WATERMARK_ANGLE, expand=False)
 
@@ -110,7 +107,7 @@ def add_branding(page_img: Image.Image) -> Image.Image:
               font=font_bold, fill=TEXT_COLOR)
     draw.text(
         (text_x, h + 48),
-        f"Follow: {FACEBOOK_HANDLE}   |   Join for instant updates: {TELEGRAM_HANDLE}",
+        f"Follow: {FACEBOOK_HANDLE}   |   Subscribe telegram chennel for instant update: {TELEGRAM_HANDLE}",
         font=font_reg, fill=SUBTEXT_COLOR,
     )
 

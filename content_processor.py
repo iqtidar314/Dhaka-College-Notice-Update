@@ -5,6 +5,7 @@ Handles PDF downloading, rendering to images, and branding overlay
 
 import os
 import io
+import time
 import hashlib
 import requests
 from typing import Dict, List, Optional, Tuple
@@ -20,51 +21,81 @@ class ContentProcessor:
         self.branding_name = "Archived by The DC Archive"
         self.facebook_link = "https://www.facebook.com/thedcarchive"
         self.telegram_link = "https://t.me/thedcarchive_notice"
-        self.timeout = 30
-        self.dpi = 150
+        # (connect timeout, read timeout) — fail fast on stalled TCP, generous read for large PDFs
+        self.timeout = (10, 60)
         self.max_width = 1920
-        
+        self.dpi = 150
+        self._ua_headers = {
+            'User-Agent': (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/124.0.0.0 Safari/537.36'
+            )
+        }
+
         # Branding colors
         self.overlay_bg_color = (0, 0, 0, 180)  # Semi-transparent black
-        self.text_color = (255, 255, 255)  # White
-        self.accent_color = (99, 102, 241)  # Indigo
+        self.text_color = (255, 255, 255)        # White
+        self.accent_color = (99, 102, 241)        # Indigo
     
     def detect_file_type(self, url: str) -> Optional[str]:
         """Detect file type from URL or HEAD request"""
         if not url:
             return None
-        
+
         # Check URL extension
         url_lower = url.lower()
         if url_lower.endswith('.pdf'):
             return 'pdf'
         elif any(url_lower.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']):
             return 'image'
-        
+
         # Try HEAD request
         try:
-            response = requests.head(url, timeout=10, allow_redirects=True)
+            response = requests.head(
+                url, headers=self._ua_headers, timeout=self.timeout, allow_redirects=True
+            )
             content_type = response.headers.get('Content-Type', '').lower()
-            
             if 'pdf' in content_type:
                 return 'pdf'
             elif 'image' in content_type:
                 return 'image'
-        except:
+        except Exception:
             pass
-        
+
         return 'unknown'
+
+    def _download_with_retry(self, url: str, retries: int = 3, backoff: int = 2) -> bytes:
+        """
+        Download a URL with retry logic.
+        Raises the last exception if all attempts fail.
+        """
+        last_exc = None
+        for attempt in range(retries):
+            try:
+                response = requests.get(
+                    url, headers=self._ua_headers, timeout=self.timeout
+                )
+                response.raise_for_status()
+                return response.content
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+                wait = backoff ** attempt
+                print(f"  Attempt {attempt + 1}/{retries} failed ({type(e).__name__}). Retrying in {wait}s...")
+                last_exc = e
+                time.sleep(wait)
+            except requests.exceptions.RequestException as e:
+                # Non-transient error (e.g. 404) — no point retrying
+                raise e
+        raise last_exc
     
     def download_file(self, url: str) -> Tuple[Optional[bytes], Optional[str]]:
-        """Download file and return bytes + hash"""
+        """Download file and return (bytes, sha256-hash). Returns (None, None) on failure."""
         try:
-            response = requests.get(url, timeout=self.timeout)
-            response.raise_for_status()
-            content = response.content
+            content = self._download_with_retry(url)
             file_hash = hashlib.sha256(content).hexdigest()
             return content, file_hash
         except Exception as e:
-            print(f"❌ Error downloading {url}: {e}")
+            print(f"Download failed after retries for {url}: {e}")
             return None, None
     
     def render_pdf_to_images(self, pdf_bytes: bytes) -> List[Image.Image]:
@@ -140,59 +171,7 @@ class ContentProcessor:
         return img.crop((cmin, rmin, cmax, rmax))
 
 
-    def _stitch_vertical(self, images: List[Image.Image], max_width: int, gap: int, gap_color: tuple) -> Image.Image:
-        scaled = []
-        for img in images:
-            r = max_width / img.width
-            scaled.append(img.resize((int(img.width * r), int(img.height * r)), Image.Resampling.LANCZOS))
-        
-        total_h = sum(i.height for i in scaled) + gap * (len(scaled) - 1)
-        canvas = Image.new("RGB", (max_width, total_h), gap_color)
-        y = 0
-        for img in scaled:
-            canvas.paste(img, (0, y))
-            y += img.height + gap
-        return canvas
 
-    def _stitch_horizontal(self, images: List[Image.Image], gap: int, gap_color: tuple) -> Image.Image:
-        total_w = sum(i.width for i in images) + gap * (len(images) - 1)
-        max_h   = max(i.height for i in images)
-        canvas  = Image.new("RGB", (total_w, max_h), gap_color)
-        x = 0
-        for img in images:
-            canvas.paste(img, (x, 0))
-            x += img.width + gap
-        return canvas
-
-    def stitch_pages_vertical(
-        self,
-        page_images: List[Image.Image],
-        max_width: int = 1920,
-        gap: int = 8,
-        gap_color: tuple = (255, 255, 255),
-        max_pages_to_stitch: int = 8
-    ) -> List[Image.Image]:
-        """
-        Strategy:
-        - If 1-3 pages: stitch vertically into one tall image
-        - If 4-8 pages: stitch into a 2-column grid
-        - If 9+ pages: return original images unstitched
-        """
-        n = len(page_images)
-        if n == 0:
-            return []
-        if n <= 3:
-            return [self._stitch_vertical(page_images, max_width, gap, gap_color)]
-        elif n <= max_pages_to_stitch:
-            left  = page_images[0::2]
-            right = page_images[1::2]
-            col_w = (max_width - gap) // 2
-            left_strip  = self._stitch_vertical(left,  col_w, gap, gap_color)
-            right_strip = self._stitch_vertical(right, col_w, gap, gap_color)
-            return [self._stitch_horizontal([left_strip, right_strip], gap, gap_color)]
-        else:
-            # Document is too long. We just return individual pages to be sent as album.
-            return page_images
     
     def process_notice_media(self, notice: Dict) -> Tuple[List[Image.Image], Optional[str], str]:
         """
@@ -216,17 +195,11 @@ class ContentProcessor:
             if pdf_bytes:
                 images = self.render_pdf_to_images(pdf_bytes)
                 
-                # Apply smart crop
-                processed = []
+                # Apply smart crop then brand each page individually
+                final_images = []
                 for img in images:
                     img = self.smart_crop_whitespace(img)
-                    processed.append(img)
-                
-                # Stitch images if there are multiple
-                stitched_images = self.stitch_pages_vertical(processed, max_width=self.max_width)
-                
-                # Add branding overlay and bar to each stitched image
-                final_images = [add_branding(img) for img in stitched_images]
+                    final_images.append(add_branding(img))
                 
                 return final_images, pdf_hash, 'pdf'
         
