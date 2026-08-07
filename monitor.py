@@ -310,15 +310,33 @@ class NoticeMonitor:
 
         # Compute PDF hashes (skip NOC notices to avoid unnecessary downloads)
         pdf_hashes = {}
+        file_types = {}
+        cached_notices = cache_data.get('notices', {})
+        
         for notice in all_notices:
+            nid = notice['id']
             if _is_noc_notice(notice):
                 continue
-            if notice.get('download_url'):
-                file_type = self.content_processor.detect_file_type(notice['download_url'])
-                if file_type == 'pdf':
-                    _, pdf_hash = self.content_processor.download_file(notice['download_url'])
-                    if pdf_hash:
-                        pdf_hashes[notice['id']] = pdf_hash
+            
+            download_url = notice.get('download_url')
+            if not download_url:
+                continue
+                
+            cached_notice = cached_notices.get(nid, {})
+            # Reuse cached values to avoid expensive network calls (prevents 15m timeout on server failure)
+            if cached_notice and cached_notice.get('file_type') and cached_notice.get('file_type') != 'unknown':
+                file_types[nid] = cached_notice['file_type']
+                if cached_notice.get('pdf_hash'):
+                    pdf_hashes[nid] = cached_notice['pdf_hash']
+                continue
+            
+            file_type = self.content_processor.detect_file_type(download_url)
+            file_types[nid] = file_type
+            
+            if file_type == 'pdf':
+                _, pdf_hash = self.content_processor.download_file(download_url)
+                if pdf_hash:
+                    pdf_hashes[nid] = pdf_hash
 
         # Detect changes
         changes = self.change_detector.detect_changes(
@@ -371,16 +389,22 @@ class NoticeMonitor:
 
         # Update cache
         for notice in all_notices:
-            was_on_page_1 = notice['id'] in page_1_ids
+            nid = notice['id']
+            was_on_page_1 = nid in page_1_ids
+            ftype = file_types.get(nid, 'unknown') if not _is_noc_notice(notice) else 'unknown'
+            
             cache_data = self.cache_manager.update_notice(
                 notice, cache_data,
-                pdf_hash=pdf_hashes.get(notice['id']),
-                file_type=self.content_processor.detect_file_type(notice.get('download_url', '')),
+                pdf_hash=pdf_hashes.get(nid),
+                file_type=ftype,
                 was_on_page_1=was_on_page_1,
             )
 
         cache_data = self.cache_manager.set_previous_page_1_ids(list(page_1_ids), cache_data)
         cache_data = self.cache_manager.increment_uptime_streak(cache_data)
+        cache_data = self.cache_manager.record_run(cache_data)
+        if stats["new_count"] > 0:
+            cache_data = self.cache_manager.increment_total_new_notices(stats["new_count"], cache_data)
 
         # Update dashboard
         dashboard_stats = self.dashboard.calculate_stats(

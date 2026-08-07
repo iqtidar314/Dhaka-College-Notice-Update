@@ -5,3 +5,7 @@ Dhaka-College-Notice-Update.code-workspace
 git.md
 env
 .env
+# Bot State Files
+notice_cache.json
+error_state.json
+log.json

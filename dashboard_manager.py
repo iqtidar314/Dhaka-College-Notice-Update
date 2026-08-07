@@ -25,28 +25,28 @@ class DashboardManager:
         pages_scraped = stats.get('pages_scraped', 0)
         next_check    = stats.get('next_check', 'Unknown')
         uptime_streak = stats.get('uptime_streak', 0)
+        total_runs    = stats.get('total_runs', 0)
+        today_runs    = stats.get('today_runs', 0)
+        total_new     = stats.get('total_new_notices', 0)
 
         error_line = ""
         last_error = stats.get('last_error')
         if last_error and last_error.get('active'):
             error_type  = last_error.get('type', 'Unknown')
             error_count = last_error.get('count', 0)
-            error_line  = f"\n<b>Error:</b> {error_type} ({error_count} consecutive)"
+            error_line  = f"\n\n<b>Error:</b> {error_type} ({error_count} consecutive)"
 
         links = _link_footer()
 
         dashboard = (
-            f"<b>The DC Archive — Live Monitor</b>\n\n"
+            f"<blockquote><b>The DC Archive — Live Monitor</b>\n\n"
             f"Status: <code>{status_icon}</code>  ·  "
             f"Last check: <code>{last_check}</code>  ·  "
-            f"Next: <code>{next_check}</code>\n\n"
-            f"Notices tracked: <code>{total_notices}</code>  ·  "
-            f"Front page: <code>{page_1_count}</code>  ·  "
-            f"Pages scraped: <code>{pages_scraped}</code>\n\n"
-            f"Today — New: <code>{new_today}</code>  "
-            f"Edited: <code>{edited_today}</code>  "
-            f"Removed: <code>{removed_today}</code>\n\n"
-            f"Uptime streak: <code>{uptime_streak} runs</code>"
+            f"Next: <code>{next_check}</code></blockquote>\n\n"
+            f"<blockquote>Total notice delivered: <code>{total_new}</code>  ·  "
+            f"All time checks: <code>{total_runs} times</code>\n\n"
+            f"Today notice delivered: <code>{new_today}</code>  ·  "
+            f"Checks today: <code>{today_runs} times</code></blockquote>"
             f"{error_line}\n\n"
             f"{links}"
         )
@@ -116,7 +116,7 @@ class DashboardManager:
         
         # Calculate next check (15 minutes from now)
         next_check_time = now + timedelta(minutes=15)
-        next_check = next_check_time.strftime('%H:%M')
+        next_check = next_check_time.strftime('%I:%M %p')
         
         # Get uptime streak from cache
         uptime_streak = cache_data.get('uptime_streak', 0)
@@ -126,9 +126,14 @@ class DashboardManager:
         if error_state and error_state.get('last_error', {}).get('active'):
             last_error = error_state['last_error']
         
+        # Get new metrics
+        total_runs = cache_data.get('total_runs', 0)
+        today_runs = cache_data.get('today_runs', 0)
+        total_new_notices = cache_data.get('total_new_notices', 0)
+        
         return {
             'status': 'online',
-            'last_check': now.strftime('%Y-%m-%d %H:%M:%S'),
+            'last_check': now.strftime('%Y-%m-%d %I:%M:%S %p'),
             'total_notices': total_notices,
             'page_1_count': page_1_count,
             'new_today': new_today,
@@ -137,6 +142,9 @@ class DashboardManager:
             'pages_scraped': pages_scraped,
             'next_check': next_check,
             'uptime_streak': uptime_streak,
+            'total_runs': total_runs,
+            'today_runs': today_runs,
+            'total_new_notices': total_new_notices,
             'last_error': last_error
         }
 

@@ -30,6 +30,10 @@ class CacheManager:
             "previous_page_1_ids": [],
             "dashboard_message_id": None,
             "uptime_streak": 0,
+            "total_runs": 0,
+            "today_runs": 0,
+            "last_run_date": "",
+            "total_new_notices": 0,
             "last_check": None,
             "integrity_check": ""
         }
@@ -211,6 +215,26 @@ class CacheManager:
     def increment_uptime_streak(self, cache_data: Dict) -> Dict:
         """Increment the uptime streak counter"""
         cache_data['uptime_streak'] = cache_data.get('uptime_streak', 0) + 1
+        return cache_data
+        
+    def record_run(self, cache_data: Dict) -> Dict:
+        """Record a successful run for total and today counters"""
+        now = datetime.now(timezone(timedelta(hours=6)))
+        today_str = now.strftime('%Y-%m-%d')
+        
+        cache_data['total_runs'] = cache_data.get('total_runs', 0) + 1
+        
+        if cache_data.get('last_run_date') != today_str:
+            cache_data['today_runs'] = 1
+            cache_data['last_run_date'] = today_str
+        else:
+            cache_data['today_runs'] = cache_data.get('today_runs', 0) + 1
+            
+        return cache_data
+
+    def increment_total_new_notices(self, count: int, cache_data: Dict) -> Dict:
+        """Increment the total all-time new notices counter"""
+        cache_data['total_new_notices'] = cache_data.get('total_new_notices', 0) + count
         return cache_data
 
     def append_telegram_message_ids(self, notice_id: str, message_ids: List[int], cache_data: Dict) -> Dict:

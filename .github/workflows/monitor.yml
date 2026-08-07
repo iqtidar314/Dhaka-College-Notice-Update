@@ -8,6 +8,9 @@ on:
     - cron: '45 * * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
@@ -51,6 +54,11 @@ jobs:
           echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
           echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
 
+      - name: Fetch state from bot-state branch
+        run: |
+          git fetch origin bot-state || echo "bot-state branch not found on remote"
+          git checkout origin/bot-state -- notice_cache.json error_state.json log.json || echo "State files not found in bot-state branch"
+
       - name: Check for cache files
         run: |
           if [ -f notice_cache.json ]; then
@@ -80,17 +88,29 @@ jobs:
         run: python runner_handler.py
 
       # --- COMMIT (Runs ALWAYS to save state) ---
-      - name: Commit and push changes
+      - name: Commit and push changes to bot-state
         if: always()
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "The DC Archive Bot"
           
-          # Add potentially changed files
+          # Stash state files safely
+          mkdir -p /tmp/bot-state
+          cp notice_cache.json error_state.json log.json /tmp/bot-state/ 2>/dev/null || true
+          
+          # Fetch and checkout bot-state branch
+          git fetch origin bot-state || true
+          if git branch -r | grep -q "origin/bot-state"; then
+            git checkout bot-state || git checkout -b bot-state origin/bot-state
+          else
+            git checkout --orphan bot-state
+            git rm -rf .
+          fi
+          
+          # Restore the updated state files
+          cp /tmp/bot-state/* . 2>/dev/null || true
+          
+          # Add and push
           git add notice_cache.json error_state.json log.json
-          
-          # Commit if there are changes
           git diff --staged --quiet || git commit -m "Update state [${{ job.status }}] - $(date)"
-          
-          # Push
-          git push || echo "No changes to push"
+          git push origin bot-state || echo "No changes to push"
