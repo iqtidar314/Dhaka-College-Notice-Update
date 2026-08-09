@@ -157,25 +157,21 @@ class TelegramUtils:
             return f"<code>Part {part} of {total_parts}</code>"
 
     def format_removed_caption(self, notice: Dict) -> str:
-        """Notification that a notice was removed from the front page."""
+        """Short notification that a notice has been removed."""
         title = notice.get('title', 'Unknown')
-
+        date  = notice.get('date', 'Unknown')
         return (
-            f"\U0001f6ab <b>Notice Removed from Front Page</b>\n"
-            f"<blockquote>{title}</blockquote>\n\n"
-            f"This notice has been taken down from the official website's front page. "
-            f"It may have expired, been replaced, or moved to an archive section.\n\n"
-            f"{_link_footer()}"
+            f"<b>Removed</b>\n"
+            f"<b>{title}</b>\n"
+            f"<code>{date}</code>"
         )
 
     def format_deleted_label(self, original_caption: str) -> str:
-        """Edit an existing message to show it has been deleted/removed."""
-        return (
-            f"\U0001f5d1 <b>Notice Deleted</b>\n"
-            f"This notice was removed from the front page of the official Dhaka College website. "
-            f"The original content is shown below.\n\n"
-            f"{original_caption}"
-        )
+        """
+        Prepend a short removal marker to an existing caption.
+        The original content (text, links) is preserved below the tag.
+        """
+        return f"<b>[Removed]</b>\n{original_caption}"
 
     # ── Send methods ──────────────────────────────────────────────────────────
 
@@ -275,7 +271,7 @@ class TelegramUtils:
         return result
 
     def edit_message(self, message_id: int, text: str) -> Optional[Dict]:
-        """Edit the text of an existing message."""
+        """Edit the text of an existing text message."""
         data = {
             "chat_id":                  self.chat_id,
             "message_id":               message_id,
@@ -286,6 +282,19 @@ class TelegramUtils:
         result = self._make_request("editMessageText", data)
         if result:
             print(f"Message edited: {message_id}")
+        return result
+
+    def edit_message_caption(self, message_id: int, caption: str) -> Optional[Dict]:
+        """Edit the caption of an existing photo/document message (preserves media)."""
+        data = {
+            "chat_id":     self.chat_id,
+            "message_id":  message_id,
+            "caption":     caption[:1024],
+            "parse_mode":  "HTML",
+        }
+        result = self._make_request("editMessageCaption", data)
+        if result:
+            print(f"Caption edited: {message_id}")
         return result
 
     def reply_to_message(self, reply_to_message_id: int, text: str,

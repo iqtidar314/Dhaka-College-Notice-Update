@@ -185,6 +185,17 @@ class NoticeMonitor:
                 self._record_message_ids(notice['id'], results, cache_data)
                 return len(results) > 0
 
+            # ── REMOVED_FROM_PAGE_1 — no render/download needed ──────────────
+            if change_type == ChangeType.REMOVED_FROM_PAGE_1:
+                result = self.telegram.send_removed_notification(notice)
+                if result:
+                    msg_id = result.get('message_id')
+                    cache_data = self.cache_manager.set_removed_message_id(
+                        notice['id'], msg_id, cache_data
+                    )
+                    self._mark_notice_deleted(notice, cache_data)
+                return result is not None
+
             # ── Download & render ─────────────────────────────────────────────
             print(f"Downloading PDF: {download_url}")
             images, pdf_hash, file_type = self.content_processor.process_notice_media(notice)
@@ -196,24 +207,13 @@ class NoticeMonitor:
 
             print(f"Sending {len(image_bytes)} images (PDF fallback available: {bool(pdf_bytes)})")
 
-            # ── REMOVED_FROM_PAGE_1 ───────────────────────────────────────────
-            if change_type == ChangeType.REMOVED_FROM_PAGE_1:
-                result = self.telegram.send_removed_notification(notice)
-                if result:
-                    msg_id = result.get('message_id')
-                    cache_data = self.cache_manager.set_removed_message_id(
-                        notice['id'], msg_id, cache_data
-                    )
-                    # Also edit any previously sent notice messages
-                    self._mark_notice_deleted(notice, cache_data, msg_id)
-                return result is not None
-
             # ── Normal send ───────────────────────────────────────────────────
             results, _ = self.telegram.send_notice_with_media(
                 notice, change_type.value, image_bytes, pdf_bytes
             )
             self._record_message_ids(notice['id'], results, cache_data)
             return len(results) > 0
+
 
         except Exception as e:
             print(f"Error processing notice {notice.get('id')}: {e}")
@@ -227,31 +227,28 @@ class NoticeMonitor:
         if ids:
             self.cache_manager.append_telegram_message_ids(notice_id, ids, cache_data)
 
-    def _mark_notice_deleted(self, notice: Dict, cache_data: Dict, removed_msg_id: int):
+    def _mark_notice_deleted(self, notice: Dict, cache_data: Dict):
         """
-        Edit all previously sent messages for this notice to add a [DELETED] label,
-        then reply to the removed-notice message confirming deletion.
+        Prepend a [Removed] tag to all previously sent Telegram messages for this
+        notice.  If no message history exists, does nothing.
+
+        For photo/media posts the caption is edited (image preserved).
+        For plain text posts the message text is edited.
+        Both fall back silently if the API call fails.
         """
         notice_record = cache_data.get('notices', {}).get(notice['id'], {})
         prev_ids      = notice_record.get('telegram_message_ids', [])
 
-        for msg_id in prev_ids:
-            try:
-                original = (
-                    f"<b>Notice Removed from Front Page</b>\n"
-                    f"<b>{notice.get('title', 'Unknown')}</b>\n"
-                    f"<code>{notice.get('date', 'Unknown')}</code>"
-                )
-                self.telegram.edit_message(msg_id, self.telegram.format_deleted_label(original))
-            except Exception as e:
-                print(f"Could not edit message {msg_id}: {e}")
+        if not prev_ids:
+            print(f"No message history for notice {notice['id'][:12]}… — skipping deletion tag")
+            return
 
-        # Reply to the removal notification
-        if removed_msg_id:
-            self.telegram.reply_to_message(
-                removed_msg_id,
-                "This notice has been deleted from the Dhaka College website."
-            )
+        for msg_id in prev_ids:
+            # Try editMessageCaption first (works on photo/video/document messages)
+            result = self.telegram.edit_message_caption(msg_id, "<b>[Removed]</b>")
+            if result is None:
+                # Fall back to editMessageText (works on plain text messages)
+                self.telegram.edit_message(msg_id, "<b>[Removed]</b>")
 
     # ── Main run ──────────────────────────────────────────────────────────────
 

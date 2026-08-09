@@ -98,10 +98,13 @@ jobs:
           mkdir -p /tmp/bot-state
           cp notice_cache.json error_state.json log.json /tmp/bot-state/ 2>/dev/null || true
           
+          # Remove untracked files so git checkout doesn't fail
+          rm -f notice_cache.json error_state.json log.json
+          
           # Fetch and checkout bot-state branch
           git fetch origin bot-state || true
           if git branch -r | grep -q "origin/bot-state"; then
-            git checkout bot-state || git checkout -b bot-state origin/bot-state
+            git checkout -f bot-state || git checkout -b bot-state origin/bot-state
           else
             git checkout --orphan bot-state
             git rm -rf .
