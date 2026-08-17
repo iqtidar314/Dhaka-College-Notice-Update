@@ -1,10 +1,15 @@
 {
   "last_error": {
-    "type": "runner_failure",
-    "active": true,
-    "count": 1,
-    "detail_error": "Workflow 'The DC Archive \u2014 Notice Monitor' failed. Run ID: 32040960041",
-    "sent": false
+    "type": null,
+    "active": false,
+    "count": 0,
+    "sent": false,
+    "detail_error": ""
   },
-  "previous_error": {}
+  "previous_error": {
+    "type": null,
+    "count": 0,
+    "sent": false,
+    "active": false
+  }
 }
