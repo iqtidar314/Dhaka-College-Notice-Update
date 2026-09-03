@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2026-08-30T18:52:10.359506+06:00",
-    "stats": {
-      "status": "success",
-      "pages_scraped": 3,
-      "total_notices": 30,
-      "new_count": 1,
-      "edited_count": 0,
-      "pdf_replaced_count": 0,
-      "removed_count": 0,
-      "noc_skipped": 0,
-      "errors": []
-    }
-  },
-  {
     "timestamp": "2026-08-30T19:10:34.258928+06:00",
     "stats": {
       "status": "success",
@@ -1387,6 +1373,20 @@
   },
   {
     "timestamp": "2026-09-04T04:44:47.598800+06:00",
+    "stats": {
+      "status": "success",
+      "pages_scraped": 3,
+      "total_notices": 30,
+      "new_count": 0,
+      "edited_count": 0,
+      "pdf_replaced_count": 0,
+      "removed_count": 0,
+      "noc_skipped": 0,
+      "errors": []
+    }
+  },
+  {
+    "timestamp": "2026-09-04T05:06:44.849409+06:00",
     "stats": {
       "status": "success",
       "pages_scraped": 3,
