@@ -892,7 +892,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-02T08:37:53.596396",
-      "last_seen": "2026-09-23T16:30:24.222014",
+      "last_seen": "2026-09-23T16:55:23.731935",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -922,7 +922,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-03T08:46:44.968407",
-      "last_seen": "2026-09-23T16:30:24.222010",
+      "last_seen": "2026-09-23T16:55:23.731932",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -937,7 +937,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-06T10:53:47.558412",
-      "last_seen": "2026-09-23T16:30:24.222005",
+      "last_seen": "2026-09-23T16:55:23.731927",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -952,7 +952,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-08T05:02:31.728680",
-      "last_seen": "2026-09-23T16:30:24.222002",
+      "last_seen": "2026-09-23T16:55:23.731924",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -967,7 +967,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-08T09:58:55.736811",
-      "last_seen": "2026-09-23T16:30:24.221998",
+      "last_seen": "2026-09-23T16:55:23.731921",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -982,7 +982,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-09T08:55:08.635769",
-      "last_seen": "2026-09-23T16:30:24.221986",
+      "last_seen": "2026-09-23T16:55:23.731912",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -997,7 +997,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-09T08:55:08.635780",
-      "last_seen": "2026-09-23T16:30:24.221990",
+      "last_seen": "2026-09-23T16:55:23.731915",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1012,14 +1012,14 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-09T08:55:08.635784",
-      "last_seen": "2026-09-23T16:30:24.221994",
+      "last_seen": "2026-09-23T16:55:23.731918",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "2b9b1775fc0cc5168dc1416e7fb35ddc": {
       "id": "2b9b1775fc0cc5168dc1416e7fb35ddc",
-      "serial": "19",
+      "serial": "21",
       "title": "বিভিন্ন বর্ষের শিক্ষার্থীদের সাইকেল স্ট্যান্ডে সাইকেল রাখার বিজ্ঞপ্তি",
       "date": "09-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/20ae1327c0955f90-শিক্ষার্থীদের-সাইকেল-স্ট্যান্ডে-সাইকেল-রাখার-বিজ্ঞপ্তি.pdf",
@@ -1027,14 +1027,14 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-09T11:20:09.363700",
-      "last_seen": "2026-09-23T16:30:24.221975",
+      "last_seen": "2026-09-23T16:55:23.731902",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "2f2a26df826fee9686e3f544c7499cbd": {
       "id": "2f2a26df826fee9686e3f544c7499cbd",
-      "serial": "20",
+      "serial": "22",
       "title": "অরোরা স্পেশালাইজড হাসপাতালের সাথে চুক্তি অনুষ্ঠানে শিক্ষক-শিক্ষার্থী ও কর্মচারীদের উপস্থিত থাকার বিজ্ঞপ্তি",
       "date": "09-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/3431c05c820bd311-অরোরা-স্পেশালাইজড-হাসপাতালে-চুক্তি-অনুষ্ঠানে-উপস্থিত-থাকার-বিজ্ঞপ্তি.pdf",
@@ -1042,7 +1042,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-09T11:20:09.363722",
-      "last_seen": "2026-09-23T16:30:24.221982",
+      "last_seen": "2026-09-23T16:55:23.731908",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": [],
@@ -1050,7 +1050,7 @@
     },
     "e44d813da8c4cd639ca781f748942d17": {
       "id": "e44d813da8c4cd639ca781f748942d17",
-      "serial": "18",
+      "serial": "20",
       "title": "NOC for Irin Pervin, Associate Professor, Dept of History",
       "date": "10-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/2606b21599bac75e-noc-for-irin-pervin,-associate-professor,-dept-of-history.pdf",
@@ -1058,14 +1058,14 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-10T08:53:43.010566",
-      "last_seen": "2026-09-23T16:30:24.221969",
+      "last_seen": "2026-09-23T16:55:23.731897",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "04a64ccd076efb98b00c2cf1f565f381": {
       "id": "04a64ccd076efb98b00c2cf1f565f381",
-      "serial": "17",
+      "serial": "19",
       "title": "NOC for Md. Tohidur Rahman, Associate Professor, Dept of History",
       "date": "10-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/81b1851bc78c710b-noc-for-md.-tohidur-rahman,-associate-professor,-dept-of-history.pdf",
@@ -1073,7 +1073,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-10T09:58:26.837996",
-      "last_seen": "2026-09-23T16:30:24.221965",
+      "last_seen": "2026-09-23T16:55:23.731894",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1096,7 +1096,7 @@
     },
     "9b37e7941f3c3d9267ff53ddfe2593cc": {
       "id": "9b37e7941f3c3d9267ff53ddfe2593cc",
-      "serial": "16",
+      "serial": "18",
       "title": "দ্বাদশ শ্রেণির CT-2 এর সময়সূচী (সংশোধিত) বিজ্ঞপ্তি",
       "date": "13-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/76f4ec42bff3743d-দ্বাদশ-শ্রেণির-ct-2-এর-সময়সূচী-(সংশোধিত)-বিজ্ঞপ্তি.pdf",
@@ -1104,14 +1104,14 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-13T10:31:18.458657",
-      "last_seen": "2026-09-23T16:30:24.221960",
+      "last_seen": "2026-09-23T16:55:23.731890",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "0d223b1e5060e5bc7a2755579a1aa9e0": {
       "id": "0d223b1e5060e5bc7a2755579a1aa9e0",
-      "serial": "15",
+      "serial": "17",
       "title": "২০২৩-২৪ শিক্ষাবর্ষের অনার্স ২য় বর্ষ, ২০২২-২৩ শিক্ষাবর্ষের অনার্স ৩য় বর্ষ ও ২০২১-২২ শিক্ষাবর্ষের অনার্স ৪র্থ বর্ষের শিক্ষার্থীদের বেতন ও সেশন ফি জমা দেয়ার বিজ্ঞপ্তি",
       "date": "14-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/5640f9a9974ca853-অনার্স-বিভিন্ন-বর্ষের-শিক্ষার্থীদের-বেতন-ও-সেশন-ফি-জমা-দেয়ার-বিজ্ঞপ্তি.pdf",
@@ -1119,14 +1119,14 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-14T14:21:00.908580",
-      "last_seen": "2026-09-23T16:30:24.221954",
+      "last_seen": "2026-09-23T16:55:23.731885",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "d75e9d47f64f263187d3d39f407ebf41": {
       "id": "d75e9d47f64f263187d3d39f407ebf41",
-      "serial": "12",
+      "serial": "14",
       "title": "XII (2025-2026 ) Class Routine Notice",
       "date": "16-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/89e709a69d121c19-xii-(2025-2026-)-class-routine-notice.pdf",
@@ -1134,14 +1134,14 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-16T05:48:27.898183",
-      "last_seen": "2026-09-23T16:30:24.221936",
+      "last_seen": "2026-09-23T16:55:23.731846",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "46dd747d9a6996589ccbf3b1ba97b0da": {
       "id": "46dd747d9a6996589ccbf3b1ba97b0da",
-      "serial": "13",
+      "serial": "15",
       "title": "XII (2025-2026 ) Class Routine (Science)",
       "date": "16-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/64244152d5ff5a6a-xii-(2025-2026-)-class-routine-(science).pdf",
@@ -1149,14 +1149,14 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-16T05:48:27.898226",
-      "last_seen": "2026-09-23T16:30:24.221941",
+      "last_seen": "2026-09-23T16:55:23.731874",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "aa20679669365289661071392921c819": {
       "id": "aa20679669365289661071392921c819",
-      "serial": "14",
+      "serial": "16",
       "title": "XII (2025-2026) Class Routine (Humanities & Business)",
       "date": "16-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/337e82094a11be34-xii-(2025-2026)-class-routine-(humanities-&-business).pdf",
@@ -1164,14 +1164,14 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-16T05:48:27.898232",
-      "last_seen": "2026-09-23T16:30:24.221946",
+      "last_seen": "2026-09-23T16:55:23.731878",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
     },
     "8aa62442753c00402de6477a60b6ee2e": {
       "id": "8aa62442753c00402de6477a60b6ee2e",
-      "serial": "11",
+      "serial": "13",
       "title": "XI Class Routine 2026-2027 (Science)-1",
       "date": "16-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/ae4fc97c13b5947d-xi-class-routine-2026-2027-(science)-1.pdf",
@@ -1179,7 +1179,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-16T05:59:37.071319",
-      "last_seen": "2026-09-23T16:30:24.221930",
+      "last_seen": "2026-09-23T16:55:23.731842",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1218,7 +1218,7 @@
     },
     "cefb682b8f079a5e121783de905ae59b": {
       "id": "cefb682b8f079a5e121783de905ae59b",
-      "serial": "10",
+      "serial": "12",
       "title": "একাদশ শ্রেণিতে সংশোধিত ভর্তি বিজ্ঞপ্তি (শিক্ষাবর্ষ ২০২৬-২০২৭)",
       "date": "17-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/02d31e43045f4b7a-একাদশ-শ্রেণিতে-সংশোধিত-ভর্তি-বিজ্ঞপ্তি.pdf",
@@ -1226,15 +1226,15 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-17T06:31:12.347655",
-      "last_seen": "2026-09-23T12:12:24.670201",
+      "last_seen": "2026-09-23T16:55:23.731838",
       "history": [],
-      "was_on_page_1": true,
+      "was_on_page_1": false,
       "telegram_message_ids": [],
       "removed_message_id": 389
     },
     "9ecc2cb460c93e237554e0c11868f8b7": {
       "id": "9ecc2cb460c93e237554e0c11868f8b7",
-      "serial": "9",
+      "serial": "11",
       "title": "XI Class Routine 2026-2027 (Humanities & Business)",
       "date": "17-09-2026",
       "download_url": "https://dhakacollege.blr1.digitaloceanspaces.com/notice/c3ba30ce18576b15-xi-class-routine-2026-2027-(humanities--business)(1).webp",
@@ -1242,9 +1242,9 @@
       "content_hash": null,
       "file_type": "image",
       "first_seen": "2026-09-17T07:24:48.889057",
-      "last_seen": "2026-09-23T12:12:24.670196",
+      "last_seen": "2026-09-23T16:55:23.731833",
       "history": [],
-      "was_on_page_1": true,
+      "was_on_page_1": false,
       "telegram_message_ids": [],
       "removed_message_id": 390
     },
@@ -1290,7 +1290,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-19T09:43:38.589350",
-      "last_seen": "2026-09-23T16:30:24.221924",
+      "last_seen": "2026-09-23T16:55:23.731828",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1305,7 +1305,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-20T10:59:46.608076",
-      "last_seen": "2026-09-23T16:30:24.221913",
+      "last_seen": "2026-09-23T16:55:23.731819",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1320,7 +1320,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-20T10:59:46.608094",
-      "last_seen": "2026-09-23T16:30:24.221918",
+      "last_seen": "2026-09-23T16:55:23.731823",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1335,7 +1335,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-21T11:06:36.853030",
-      "last_seen": "2026-09-23T16:30:24.221907",
+      "last_seen": "2026-09-23T16:55:23.731814",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1350,7 +1350,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-22T09:44:25.028606",
-      "last_seen": "2026-09-23T16:30:24.221900",
+      "last_seen": "2026-09-23T16:55:23.731809",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1365,7 +1365,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-22T13:36:33.500307",
-      "last_seen": "2026-09-23T16:30:24.221883",
+      "last_seen": "2026-09-23T16:55:23.731796",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1380,7 +1380,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-22T13:36:33.500324",
-      "last_seen": "2026-09-23T16:30:24.221889",
+      "last_seen": "2026-09-23T16:55:23.731800",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1395,7 +1395,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-22T13:36:33.500330",
-      "last_seen": "2026-09-23T16:30:24.221894",
+      "last_seen": "2026-09-23T16:55:23.731804",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1410,7 +1410,7 @@
       "content_hash": null,
       "file_type": "image",
       "first_seen": "2026-09-23T16:30:24.221856",
-      "last_seen": "2026-09-23T16:30:24.221866",
+      "last_seen": "2026-09-23T16:55:23.731780",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1425,30 +1425,30 @@
       "content_hash": null,
       "file_type": "image",
       "first_seen": "2026-09-23T16:30:24.221874",
-      "last_seen": "2026-09-23T16:30:24.221875",
+      "last_seen": "2026-09-23T16:55:23.731790",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
     }
   },
   "previous_page_1_ids": [
-    "ff8b4007b28b5562c4ea4941813ab6ac",
-    "be55641a021fd811d785b9a35ec3f17f",
     "6417a60306e9f1c2deb7b118818762c4",
-    "4e59e9f6c84b235be407b1a51aa845c2",
-    "b638a8c65bf244dd659330b6af92389e",
-    "72a9ac096805bf804ef2e64b06abdd6b",
+    "c15dee256521c04c01e45a90c75cff09",
     "e0c4ce01ef39094666914fbcbd373ee6",
+    "4e59e9f6c84b235be407b1a51aa845c2",
     "1c4585acedc39a4d04b60d9f423a73ea",
     "32d353b636c8c324a473035d1a4bfd6f",
-    "c15dee256521c04c01e45a90c75cff09"
+    "ff8b4007b28b5562c4ea4941813ab6ac",
+    "72a9ac096805bf804ef2e64b06abdd6b",
+    "be55641a021fd811d785b9a35ec3f17f",
+    "b638a8c65bf244dd659330b6af92389e"
   ],
   "dashboard_message_id": 381,
-  "uptime_streak": 2220,
-  "total_runs": 2220,
-  "today_runs": 21,
+  "uptime_streak": 2221,
+  "total_runs": 2221,
+  "today_runs": 22,
   "last_run_date": "2026-09-23",
   "total_new_notices": 54,
-  "last_check": "2026-09-23T22:30:24.991724+06:00",
-  "integrity_check": "fc30c27c67db75b2e469b1283b1f4c7aff083435e9d8654ecaa58d3139576ce4"
+  "last_check": "2026-09-23T22:55:24.549572+06:00",
+  "integrity_check": "a603004cdbb5f2a0054592871fe6abdde17d019b7516c633c959c63246faed4e"
 }
