@@ -1366,7 +1366,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-22T13:36:33.500307",
-      "last_seen": "2026-11-01T16:26:46.296919",
+      "last_seen": "2026-11-01T18:20:52.559315",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1411,7 +1411,7 @@
       "content_hash": null,
       "file_type": "image",
       "first_seen": "2026-09-23T16:30:24.221856",
-      "last_seen": "2026-11-01T16:26:46.296910",
+      "last_seen": "2026-11-01T18:20:52.559307",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1426,7 +1426,7 @@
       "content_hash": null,
       "file_type": "image",
       "first_seen": "2026-09-23T16:30:24.221874",
-      "last_seen": "2026-11-01T16:26:46.296914",
+      "last_seen": "2026-11-01T18:20:52.559311",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1441,7 +1441,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-09-24T04:46:48.063548",
-      "last_seen": "2026-11-01T16:26:46.296905",
+      "last_seen": "2026-11-01T18:20:52.559301",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1456,7 +1456,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-24T09:46:51.767235",
-      "last_seen": "2026-11-01T16:26:46.296901",
+      "last_seen": "2026-11-01T18:20:52.559298",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1471,7 +1471,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-24T10:23:35.911429",
-      "last_seen": "2026-11-01T16:26:46.296897",
+      "last_seen": "2026-11-01T18:20:52.559293",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1486,7 +1486,7 @@
       "content_hash": null,
       "file_type": "image",
       "first_seen": "2026-09-27T18:21:55.754798",
-      "last_seen": "2026-11-01T16:26:46.296891",
+      "last_seen": "2026-11-01T18:20:52.559288",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1501,7 +1501,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-28T15:09:44.314942",
-      "last_seen": "2026-11-01T16:26:46.296887",
+      "last_seen": "2026-11-01T18:20:52.559283",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1532,7 +1532,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-09-30T06:27:58.374508",
-      "last_seen": "2026-11-01T16:26:46.296882",
+      "last_seen": "2026-11-01T18:20:52.559278",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1547,7 +1547,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-10-04T08:40:34.698975",
-      "last_seen": "2026-11-01T16:26:46.296877",
+      "last_seen": "2026-11-01T18:20:52.559274",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1562,7 +1562,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-04T12:03:39.160327",
-      "last_seen": "2026-11-01T16:26:46.296868",
+      "last_seen": "2026-11-01T18:20:52.559266",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1577,7 +1577,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-04T12:03:39.160357",
-      "last_seen": "2026-11-01T16:26:46.296873",
+      "last_seen": "2026-11-01T18:20:52.559271",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1592,7 +1592,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-06T07:32:49.894739",
-      "last_seen": "2026-11-01T16:26:46.296860",
+      "last_seen": "2026-11-01T18:20:52.559261",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1623,7 +1623,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-07T16:13:13.598563",
-      "last_seen": "2026-11-01T16:26:46.296850",
+      "last_seen": "2026-11-01T18:20:52.559256",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1638,7 +1638,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-10T06:50:49.266112",
-      "last_seen": "2026-11-01T16:26:46.296840",
+      "last_seen": "2026-11-01T18:20:52.559251",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1653,7 +1653,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-11T08:32:25.769970",
-      "last_seen": "2026-11-01T16:26:46.296825",
+      "last_seen": "2026-11-01T18:20:52.559241",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1668,7 +1668,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-10-11T08:32:25.770005",
-      "last_seen": "2026-11-01T16:26:46.296831",
+      "last_seen": "2026-11-01T18:20:52.559245",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1683,7 +1683,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-12T15:19:05.026209",
-      "last_seen": "2026-11-01T16:26:46.296806",
+      "last_seen": "2026-11-01T18:20:52.559234",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1698,7 +1698,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-12T15:19:05.026260",
-      "last_seen": "2026-11-01T16:26:46.296812",
+      "last_seen": "2026-11-01T18:20:52.559237",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1713,7 +1713,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-14T10:09:50.573977",
-      "last_seen": "2026-11-01T16:26:46.296802",
+      "last_seen": "2026-11-01T18:20:52.559230",
       "history": [],
       "was_on_page_1": false,
       "telegram_message_ids": []
@@ -1728,7 +1728,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-15T07:23:55.553091",
-      "last_seen": "2026-11-01T16:26:46.296798",
+      "last_seen": "2026-11-01T18:20:52.559226",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1743,7 +1743,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-26T04:31:26.599049",
-      "last_seen": "2026-11-01T16:26:46.296790",
+      "last_seen": "2026-11-01T18:20:52.559218",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1758,7 +1758,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-26T04:31:26.599070",
-      "last_seen": "2026-11-01T16:26:46.296794",
+      "last_seen": "2026-11-01T18:20:52.559222",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1773,7 +1773,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-29T10:25:12.239960",
-      "last_seen": "2026-11-01T16:26:46.296786",
+      "last_seen": "2026-11-01T18:20:52.559214",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1804,7 +1804,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-31T06:08:19.648503",
-      "last_seen": "2026-11-01T16:26:46.296780",
+      "last_seen": "2026-11-01T18:20:52.559208",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1819,7 +1819,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-10-31T07:30:33.063442",
-      "last_seen": "2026-11-01T16:26:46.296773",
+      "last_seen": "2026-11-01T18:20:52.559202",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1834,7 +1834,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-11-01T07:57:01.848474",
-      "last_seen": "2026-11-01T16:26:46.296768",
+      "last_seen": "2026-11-01T18:20:52.559197",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1849,7 +1849,7 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-11-01T09:44:30.986270",
-      "last_seen": "2026-11-01T16:26:46.296739",
+      "last_seen": "2026-11-01T18:20:52.559187",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1864,7 +1864,7 @@
       "content_hash": null,
       "file_type": "unknown",
       "first_seen": "2026-11-01T09:44:30.986293",
-      "last_seen": "2026-11-01T16:26:46.296744",
+      "last_seen": "2026-11-01T18:20:52.559192",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
@@ -1879,30 +1879,30 @@
       "content_hash": null,
       "file_type": "pdf",
       "first_seen": "2026-11-01T12:56:39.614490",
-      "last_seen": "2026-11-01T16:26:46.296728",
+      "last_seen": "2026-11-01T18:20:52.559177",
       "history": [],
       "was_on_page_1": true,
       "telegram_message_ids": []
     }
   },
   "previous_page_1_ids": [
-    "aefe97e19acc103240c5a5e45821a5a4",
     "4bbbd865c3e20bf0faa75ea252c8bfd7",
-    "4844b8fcf2ca185ee182ba2e9b19399a",
-    "2570046787e71b784b367465591f6c81",
-    "e5ecd0acdc6c09a202177fc6633bda1e",
-    "01a8e7d7103211fedca924e1966bbc19",
-    "d622eb5788438cc141f0ad5fc89921a4",
-    "7580aedf5a07a014308a2b5d37c35c10",
     "571f3cb357286f87b4375cc337dd5d7f",
-    "1e3f9efc18c3e8c486dfe4ce461e79aa"
+    "4844b8fcf2ca185ee182ba2e9b19399a",
+    "d622eb5788438cc141f0ad5fc89921a4",
+    "01a8e7d7103211fedca924e1966bbc19",
+    "2570046787e71b784b367465591f6c81",
+    "1e3f9efc18c3e8c486dfe4ce461e79aa",
+    "7580aedf5a07a014308a2b5d37c35c10",
+    "aefe97e19acc103240c5a5e45821a5a4",
+    "e5ecd0acdc6c09a202177fc6633bda1e"
   ],
   "dashboard_message_id": 381,
-  "uptime_streak": 2972,
-  "total_runs": 2972,
-  "today_runs": 17,
-  "last_run_date": "2026-11-01",
+  "uptime_streak": 2973,
+  "total_runs": 2973,
+  "today_runs": 1,
+  "last_run_date": "2026-11-02",
   "total_new_notices": 80,
-  "last_check": "2026-11-01T22:26:47.072116+06:00",
-  "integrity_check": "8626fee6cfbb1e7aee2b62959e7711e696f9ed873daa310bfb35562d751ec1bf"
+  "last_check": "2026-11-02T00:20:53.144070+06:00",
+  "integrity_check": "b6977463d432f84b2f4e0c4d420db43abb4e3adc56d599e34964c0cd2b6fd828"
 }
