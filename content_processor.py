@@ -25,6 +25,7 @@ class ContentProcessor:
         self.timeout = (10, 60)
         self.max_width = 1920
         self.dpi = 150
+        self.max_pdf_pages = 30  # PDFs longer than this are sent raw, not as a media group
         self._ua_headers = {
             'User-Agent': (
                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -37,7 +38,7 @@ class ContentProcessor:
         self.overlay_bg_color = (0, 0, 0, 180)  # Semi-transparent black
         self.text_color = (255, 255, 255)        # White
         self.accent_color = (99, 102, 241)        # Indigo
-    
+
     def detect_file_type(self, url: str) -> Optional[str]:
         """Detect file type from URL or HEAD request"""
         if not url:
@@ -87,7 +88,7 @@ class ContentProcessor:
                 # Non-transient error (e.g. 404) — no point retrying
                 raise e
         raise last_exc
-    
+
     def download_file(self, url: str) -> Tuple[Optional[bytes], Optional[str]]:
         """Download file and return (bytes, sha256-hash). Returns (None, None) on failure."""
         try:
@@ -97,45 +98,54 @@ class ContentProcessor:
         except Exception as e:
             print(f"Download failed after retries for {url}: {e}")
             return None, None
-    
+
+    def get_pdf_page_count(self, pdf_bytes: bytes) -> int:
+        """Return number of pages in a PDF without rendering. Returns 0 on failure."""
+        try:
+            with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
+                return len(doc)
+        except Exception as e:
+            print(f"⚠️ Could not read PDF page count: {e}")
+            return 0
+
     def render_pdf_to_images(self, pdf_bytes: bytes) -> List[Image.Image]:
         """Render all pages of a PDF to PIL Images"""
         images = []
-        
+
         try:
             # Open PDF from bytes
             doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-            
+
             for page_num in range(len(doc)):
                 page = doc[page_num]
-                
+
                 # Calculate zoom for desired DPI
                 zoom = self.dpi / 72
                 mat = fitz.Matrix(zoom, zoom)
-                
+
                 # Render page to pixmap
                 pix = page.get_pixmap(matrix=mat)
-                
+
                 # Convert to PIL Image
                 img_data = pix.tobytes("png")
                 img = Image.open(io.BytesIO(img_data))
-                
+
                 # Resize if too wide
                 if img.width > self.max_width:
                     ratio = self.max_width / img.width
                     new_height = int(img.height * ratio)
                     img = img.resize((self.max_width, new_height), Image.Resampling.LANCZOS)
-                
+
                 images.append(img)
-            
+
             doc.close()
             print(f"✅ Rendered {len(images)} pages from PDF")
-        
+
         except Exception as e:
             print(f"❌ Error rendering PDF: {e}")
-        
+
         return images
-    
+
     def load_logo(self) -> Optional[Image.Image]:
         """Load the branding logo"""
         try:
@@ -150,7 +160,7 @@ class ContentProcessor:
         except Exception as e:
             print(f"⚠️ Could not load logo: {e}")
         return None
-    
+
     def smart_crop_whitespace(self, img: Image.Image, threshold=245, padding=20) -> Image.Image:
         """Remove white borders while preserving content."""
         img_array = np.array(img.convert("RGB"))
@@ -170,56 +180,69 @@ class ContentProcessor:
         cmax = min(w, cmax + padding)
         return img.crop((cmin, rmin, cmax, rmax))
 
-
-
-    
     def process_notice_media(self, notice: Dict) -> Tuple[List[Image.Image], Optional[str], str]:
         """
         Process a notice's media (PDF or image)
-        
+
         Returns:
-            (images, pdf_hash, file_type)
+            (images, file_hash, file_type)
+
+            file_type is one of:
+              'pdf'      - rendered, branded page images in `images`
+              'pdf_raw'  - PDF exceeds max_pdf_pages; `images` is empty and the
+                           original bytes are stored in notice['raw_pdf_bytes']
+              'image'    - single branded image
+              'none'     - no download URL
+              'unknown'  - could not process
         """
         download_url = notice.get('download_url', '')
-        
+
         if not download_url:
             return [], None, 'none'
-        
+
         # Detect file type
         file_type = self.detect_file_type(download_url)
-        
+
         if file_type == 'pdf':
-            # Download and render PDF
+            # Download PDF
             pdf_bytes, pdf_hash = self.download_file(download_url)
-            
+
             if pdf_bytes:
+                page_count = self.get_pdf_page_count(pdf_bytes)
+
+                # Too many pages for a media group: skip rendering, hand back the raw PDF
+                if page_count > self.max_pdf_pages:
+                    print(f"📄 PDF has {page_count} pages (> {self.max_pdf_pages}); sending raw PDF")
+                    notice['raw_pdf_bytes'] = pdf_bytes
+                    return [], pdf_hash, 'pdf_raw'
+
                 images = self.render_pdf_to_images(pdf_bytes)
-                
+
                 # Apply smart crop then brand each page individually
                 final_images = []
                 for img in images:
                     img = self.smart_crop_whitespace(img)
                     final_images.append(add_branding(img))
-                
+
                 return final_images, pdf_hash, 'pdf'
-        
+
         elif file_type == 'image':
             # Download image directly
             img_bytes, img_hash = self.download_file(download_url)
-            
+
             if img_bytes:
                 try:
                     img = Image.open(io.BytesIO(img_bytes))
-                    
+
                     # Process image
                     branded = add_branding(img)
-                    
+
                     return [branded], img_hash, 'image'
                 except Exception as e:
                     print(f"❌ Error processing image: {e}")
-        
+
         return [], None, 'unknown'
-    
+
     def images_to_bytes(self, images: List[Image.Image], format: str = 'PNG') -> List[bytes]:
         """Convert PIL Images to bytes"""
         result = []
@@ -236,7 +259,8 @@ class ContentProcessor:
 if __name__ == "__main__":
     # Test content processor
     processor = ContentProcessor()
-    
+
     print("Content Processor initialized")
     print(f"Logo path: {processor.logo_path}")
     print(f"Branding: {processor.branding_name}")
+    print(f"Max PDF pages for media group: {processor.max_pdf_pages}")
