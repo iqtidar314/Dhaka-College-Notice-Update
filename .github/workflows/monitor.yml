@@ -1,6 +1,6 @@
 name: The DC Archive — Notice Monitor
 
-on:  
+on:
   schedule:
     - cron: '0 * * * *'
     - cron: '15 * * * *'
@@ -14,7 +14,7 @@ permissions:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,20 +25,20 @@ jobs:
           sudo apt-get install -y fonts-liberation fonts-dejavu-core
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.12'
 
       - name: Cache Python virtual environment
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: venv
-          key: ${{ runner.os }}-venv-python3.9-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-venv-python3.12-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-venv-python3.9-
+            ${{ runner.os }}-venv-python3.12-
 
       - name: Cache PyMuPDF
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pymupdf
           key: ${{ runner.os }}-pymupdf
@@ -81,7 +81,7 @@ jobs:
 
       # --- FAILURE HANDLER (Runs if anything above fails) ---
       - name: Handle Runner Failure
-        if: failure() 
+        if: failure()
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -93,14 +93,14 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "The DC Archive Bot"
-          
+
           # Stash state files safely
           mkdir -p /tmp/bot-state
           cp notice_cache.json error_state.json log.json /tmp/bot-state/ 2>/dev/null || true
-          
+
           # Remove untracked files so git checkout doesn't fail
           rm -f notice_cache.json error_state.json log.json
-          
+
           # Fetch and checkout bot-state branch
           git fetch origin bot-state || true
           if git branch -r | grep -q "origin/bot-state"; then
@@ -109,10 +109,10 @@ jobs:
             git checkout --orphan bot-state
             git rm -rf .
           fi
-          
+
           # Restore the updated state files
           cp /tmp/bot-state/* . 2>/dev/null || true
-          
+
           # Add and push
           git add notice_cache.json error_state.json log.json
           git diff --staged --quiet || git commit -m "Update state [${{ job.status }}] - $(date)"
